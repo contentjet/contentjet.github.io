@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= locals.title ? `${title} | contentjet` : 'contentjet' %></title>
+  </head>
+  <body>
+    <nav>
+      <ul>
+        <li>
+          <li><a href="/docs">Docs</a></li>
+          <li><a href="/api">API</a></li>
+          <li><a href="/guides">Guides</a></li>
+        </li>
+      </ul>
+    </nav>
+    <%- contents %>
+  </body>
+</html>
