@@ -2,20 +2,10 @@
 <html>
   <head>
     <title><%= locals.title ? `${title} | contentjet` : 'contentjet' %></title>
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
-    <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:400,700" media="screen" charset="utf-8">
+    <%- include('includes/stylesheets'); %>
   </head>
   <body>
-    <nav>
-      <ul>
-        <li>
-          <li><a href="/docs">Docs</a></li>
-          <li><a href="/api">API</a></li>
-          <li><a href="/guides">Guides</a></li>
-        </li>
-      </ul>
-    </nav>
+    <%- include('includes/main-nav'); %>
     <%- contents %>
   </body>
 </html>

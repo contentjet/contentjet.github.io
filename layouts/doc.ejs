@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= locals.title ? `${title} | contentjet` : 'contentjet' %></title>
+    <%- include('includes/stylesheets'); %>
+  </head>
+  <body>
+    <%- include('includes/main-nav'); %>
+    <div class="container">
+      <aside class="sidebar">
+        <nav class="doc-nav">
+          <ul class="doc-nav-list">
+            <% collections.docs.forEach(doc => { %>
+              <li class="<%= doc.path === path ? 'doc-nav-item active' : 'doc-nav-item' %>">
+                <a href="/<%= doc.path %>"><%= doc.title %></a>
+              </li>
+            <% }); %>
+          </ul>
+        </nav>
+      </aside>
+      <section class="content">
+        <%- contents %>
+      </section>
+    </div>
+  </body>
+</html>

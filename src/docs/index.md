@@ -1,5 +1,5 @@
 ---
 title: Documentation
-layout: base.ejs
+layout: doc.ejs
 ---
 # Documentation
