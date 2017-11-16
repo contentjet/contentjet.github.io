@@ -9,7 +9,7 @@ const serve = require('metalsmith-serve');
 const debug = require('metalsmith-debug');
 
 
-Metalsmith(__dirname)
+let metalsmith = Metalsmith(__dirname)
   .source('./src')
   .destination('./build')
   .clean(true)
@@ -46,10 +46,10 @@ Metalsmith(__dirname)
       engine: 'ejs'
     })
   )
-  .use(debug())
-  .use(
-    serve()
-  )
-  .build(function (err) {
-    if (err) throw err;
-  });
+  .use(debug());
+
+if (process.env.npm_lifecycle_event === 'start') metalsmith = metalsmith.use(serve());
+
+metalsmith.build(function (err) {
+  if (err) throw err;
+});
