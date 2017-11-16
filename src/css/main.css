@@ -6,3 +6,13 @@ body {
   height: 100%;
   line-height: 1.42857143em;
 }
+
+.main-nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.main-nav-item {
+  display: inline-block;
+}
