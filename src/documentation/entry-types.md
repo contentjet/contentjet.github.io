@@ -1,6 +1,7 @@
 ---
 title: Entry Types
 layout: doc.ejs
+order: 30
 ---
 # Entry Types
 

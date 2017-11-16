@@ -20,6 +20,7 @@
   "homepage": "https://github.com/contentjet/contentjet.github.io#readme",
   "devDependencies": {
     "ejs": "^2.5.7",
+    "lost": "^8.2.0",
     "metalsmith": "^2.3.0",
     "metalsmith-collections": "^0.9.0",
     "metalsmith-data-loader": "^1.1.2",
@@ -27,6 +28,10 @@
     "metalsmith-layouts": "^1.8.1",
     "metalsmith-markdown": "^0.2.1",
     "metalsmith-permalinks": "^0.5.0",
-    "metalsmith-serve": "0.0.7"
+    "metalsmith-postcss": "^4.1.1",
+    "metalsmith-serve": "0.0.7",
+    "postcss-cssnext": "^3.0.2",
+    "postcss-import": "^11.0.0",
+    "postcss-nested": "^2.1.2"
   }
 }

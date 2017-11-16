@@ -4,6 +4,7 @@ const layouts = require('metalsmith-layouts');
 const markdown = require('metalsmith-markdown');
 const permalinks = require('metalsmith-permalinks');
 const dataLoader = require('metalsmith-data-loader');
+const postcss = require('metalsmith-postcss');
 const serve = require('metalsmith-serve');
 const debug = require('metalsmith-debug');
 
@@ -13,12 +14,24 @@ Metalsmith(__dirname)
   .destination('./build')
   .clean(true)
   .use(
-    serve()
+    postcss({
+      plugins: {
+        'postcss-import': {},
+        'postcss-nested': {},
+        'postcss-cssnext': {},
+        'lost': {}
+      }
+    })
   )
   .use(
     collections({
       guides: 'guides/*.md',
-      docs: 'docs/*.md'
+      docs: {
+        pattern: [
+          'documentation/*.md'
+        ],
+        sortBy: 'order'
+      }
     })
   )
   .use(
@@ -34,6 +47,9 @@ Metalsmith(__dirname)
     })
   )
   .use(debug())
+  .use(
+    serve()
+  )
   .build(function (err) {
     if (err) throw err;
   });

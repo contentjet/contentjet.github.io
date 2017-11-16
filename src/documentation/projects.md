@@ -1,6 +1,7 @@
 ---
 title: Projects
 layout: doc.ejs
+order: 20
 ---
 # Projects
 
@@ -8,4 +9,4 @@ In contentjet all content lives within projects. A Project acts as a namespace f
 
 Users can be invited to join a project and may be assigned one of 3 roles, Author, Admin or Owner.
 
-Anything inside a project is unique to that project and cannot be moved or shared with another project. 
+Anything inside a project is unique to that project and cannot be moved or shared with another project.
