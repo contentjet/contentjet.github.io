@@ -1,6 +1,6 @@
 ---
 title: Installing contentjet on Ubuntu 16.04
-layout: base.ejs
+layout: guide.ejs
 ---
 # Installing contentjet on Ubuntu 16.04
 
