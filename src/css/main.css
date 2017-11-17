@@ -36,7 +36,7 @@ a {
 
   &:active,
   &:visited {
-    color: inherit;
+    color: var(--brand-secondary);
   }
 }
 
@@ -99,6 +99,7 @@ h4 {
 
   &__content {
     margin-left: 25px;
+    flex-grow: 1;
   }
 }
 
