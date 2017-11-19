@@ -31,6 +31,18 @@ body {
   line-height: 1.42857143em;
 }
 
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  text-align: left;
+  font-weight: normal;
+  border-bottom: 1px solid var(--light-grey);
+}
+
 a {
   color: var(--brand-secondary);
 
