@@ -1,4 +1,3 @@
 ---
-layout: base.ejs
+layout: home.ejs
 ---
-# Welcome

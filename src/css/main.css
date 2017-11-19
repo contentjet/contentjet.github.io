@@ -18,8 +18,15 @@
   --anchor-color: var(--brand-secondary);
   --text-selection-background-color: color(var(--brand-secondary) lightness(+30%));
 
-  --button-link-color: var(--brand-secondary);
+  --button-default-bg: #f7f7f7;
+  --button-default-color: var(--color);
   --button-primary-bg: var(--brand-primary);
+  --button-primary-color: #fff;
+  --button-danger-bg: #d9534f;
+  --button-danger-color: #fff;
+  --button-link-bg: transparent;
+  --button-link-color: var(--brand-secondary);
+  --button-border-radius: 4px;
 }
 
 html,
@@ -45,6 +52,7 @@ td {
 
 a {
   color: var(--brand-secondary);
+  text-decoration: none;
 
   &:active,
   &:visited {
@@ -58,6 +66,51 @@ h3,
 h4 {
   margin-top: 0;
   line-height: 1em;
+}
+
+.button {
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: var(--button-border-radius);
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.42857143;
+  margin-bottom: 0;
+  padding: 6px 16px;
+  position: relative;
+  text-align: center;
+  touch-action: manipulation;
+  user-select: none;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.button-primary {
+  background: var(--button-primary-bg);
+  border-color: color(var(--button-primary-bg) shade(5%));
+  color: var(--button-primary-color);
+
+  &:hover {
+    background: color(var(--button-primary-bg) tint(10%));
+    color: var(--button-primary-color);
+  }
+
+  &:disabled {
+    color: color(var(--button-primary-color) alpha(.55));
+
+    &:hover {
+      background: var(--button-primary-bg);
+    }
+  }
+
+  &.buttonGroup {
+
+    &:last-child {
+      border-right: 1px solid color(var(--button-primary-bg) lightness(-5%));;
+    }
+  }
 }
 
 .main-header {
@@ -106,6 +159,46 @@ h4 {
 
 .main {
   padding: 50px 20px;
+}
+
+.features {
+  padding: 50px 0;
+
+  .fa {
+    color: var(--brand-secondary);
+    font-size: 36px;
+    margin-bottom: 20px;
+  }
+}
+
+.features-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  margin: 0 auto;
+  max-width: 960px;
+  flex-wrap: wrap;
+}
+
+.features-item {
+  width: calc(960px / 4);
+  padding: 10px;
+  box-sizing: border-box;
+  text-align: center;
+
+  p {
+    font-size: 14px;
+  }
+}
+
+.call-to-action {
+  text-align: center;
+  padding: 50px 0;
+
+  .get-started-button {
+    font-size: 22px;
+  }
 }
 
 .doc {
