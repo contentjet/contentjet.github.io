@@ -158,7 +158,33 @@ h4 {
 }
 
 .main {
-  padding: 50px 20px;
+  padding: 50px 20px 0 20px;
+}
+
+.hero {
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#20cbfd+0,fd1555+100 */
+  background: #20cbfd; /* Old browsers */
+  background: -moz-linear-gradient(-45deg, #20cbfd 0%, #fd1555 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(-45deg, #20cbfd 0%,#fd1555 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(135deg, #20cbfd 0%,#fd1555 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+
+  margin: 0 -20px;
+  padding: 150px 0;
+  color: #fff;
+  text-align: center;
+
+  h1,
+  h2 {
+    font-weight: normal;
+  }
+
+  h1 {
+    font-size: 38px;
+  }
+
+  h2 {
+    font-size: 18px;
+  }
 }
 
 .features {
@@ -183,7 +209,7 @@ h4 {
 
 .features-item {
   width: calc(960px / 4);
-  padding: 10px;
+  padding: 20px;
   box-sizing: border-box;
   text-align: center;
 
@@ -195,6 +221,7 @@ h4 {
 .call-to-action {
   text-align: center;
   padding: 50px 0;
+  background: var(--lighter-grey);
 
   .get-started-button {
     font-size: 22px;
