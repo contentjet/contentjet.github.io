@@ -1,13 +1,17 @@
 features:
+  - title: Headless RESTful API
+    content: TODO
   - title: Custom entry types
+    content: Create your own entry types (think table in a database) with 13 unique field types to choose from
+  - title: One CMS. Multiple projects.
     content: TODO
   - title: Node + PostgreSQL
-    content: TODO
-  - title: Simple user management
-    content: TODO
+    content: Combines the power of Node's non-blocking asynchronous architecture and PostgreSQL's sold RDB features. Awesome!
+  - title: Simple per-project user management
+    content: Create a project and invite your client's as editors. Great for digital agencies.
   - title: Easy to use UI
-    content: TODO
+    content: React based single page application for interacting with contentjet's API
   - title: Media management
-    content: TODO
+    content: Upload media to any project with automatical thumbnail generation of images
   - title: 100% free & open source
-    content: TODO
+    content: MIT licensed. Fork it. Hack it. Whatever.
