@@ -60,6 +60,10 @@ a {
   }
 }
 
+ul {
+  margin: 0.5em 0;
+}
+
 h1,
 h2,
 h3,
@@ -233,10 +237,11 @@ h4 {
   padding: 20px 0;
 
   &__sidebar {
-    min-width: 185px;
+    min-width: 180px;
   }
 
   &__content {
+    max-width: 800px;
     margin-left: 25px;
     flex-grow: 1;
   }
