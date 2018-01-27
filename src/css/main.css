@@ -41,6 +41,7 @@ body {
 table {
   width: 100%;
   border-collapse: collapse;
+  margin-bottom: 1.5em;
 }
 
 th,
@@ -48,6 +49,12 @@ td {
   text-align: left;
   font-weight: normal;
   border-bottom: 1px solid var(--light-grey);
+  padding: 5px 10px;
+}
+
+thead th {
+  font-weight: bold;
+  border-width: 2px;
 }
 
 a {

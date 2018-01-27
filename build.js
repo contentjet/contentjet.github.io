@@ -7,9 +7,13 @@ const dataLoader = require('metalsmith-data-loader');
 const postcss = require('metalsmith-postcss');
 const serve = require('metalsmith-serve');
 const debug = require('metalsmith-debug');
+const slugify = require("underscore.string/slugify");
 
 
 let metalsmith = Metalsmith(__dirname)
+  .metadata({
+    slugify
+  })
   .source('./src')
   .destination('./build')
   .clean(true)
