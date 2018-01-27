@@ -9,7 +9,14 @@
     <%- include('includes/header'); %>
     <div class="main">
       <section class="hero">
-        <%- contents %>
+        <div class="hero__inner">
+          <div class="hero__column">
+            <%- contents %>
+          </div>
+          <div class="hero__column">
+            <img class="hero__image" src="http://lorempixel.com/800/500/" width="480" height="300" alt="contentjet UI" />
+          </div>
+        </div>
       </section>
       <section class="features">
         <ul class="features-list">
@@ -56,7 +63,7 @@
         </ul>
       </section>
       <section class="call-to-action">
-        <a href="#" class="button button-primary get-started-button">Get started</a>
+        <a href="/documentation" class="button button-primary get-started-button">Get started</a>
       </section>
     </div>
   </body>

@@ -109,6 +109,11 @@ h4 {
     }
   }
 
+  &:active,
+  &:visited {
+    color: var(--button-primary-color);
+  }
+
   &.buttonGroup {
 
     &:last-child {
@@ -123,6 +128,7 @@ h4 {
   position: fixed;
   width: 100%;
   top: 0;
+  z-index: 1;
 
   .logo {
     background: var(--brand-primary);
@@ -162,7 +168,7 @@ h4 {
 }
 
 .main {
-  padding: 50px 20px 0 20px;
+  padding: 50px 15px 0 15px;
 }
 
 .hero {
@@ -173,9 +179,9 @@ h4 {
   background: linear-gradient(135deg, #20cbfd 0%,#fd1555 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 
   margin: 0 -20px;
-  padding: 150px 0;
+  padding: 120px 0;
   color: #fff;
-  text-align: center;
+  text-align: left;
 
   h1,
   h2 {
@@ -184,10 +190,31 @@ h4 {
 
   h1 {
     font-size: 38px;
+    line-height: 1.2em;
   }
 
   h2 {
     font-size: 18px;
+    line-height: 1.3em;
+  }
+
+  &__inner {
+    display: flex;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  &__column {
+    perspective: 1000px;
+
+    &:first-child {
+      padding-right: 15px;
+    }
+  }
+
+  &__image {
+    transform: rotateY(-25deg);
+    transform-origin: left;
   }
 }
 
@@ -216,6 +243,10 @@ h4 {
   padding: 20px;
   box-sizing: border-box;
   text-align: center;
+
+  h3 {
+    line-height: 1.2em;
+  }
 
   p {
     font-size: 14px;
