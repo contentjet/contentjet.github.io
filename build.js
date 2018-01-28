@@ -15,7 +15,7 @@ let metalsmith = Metalsmith(__dirname)
     slugify
   })
   .source('./src')
-  .destination('./build')
+  .destination('./dist')
   .clean(true)
   .use(
     postcss({

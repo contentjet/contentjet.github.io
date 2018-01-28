@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Entry Types | contentjet</title>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:400,700" media="screen" charset="utf-8">
+<link rel="stylesheet" href="/css/main.css">
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </head>
+  <body class="entry-types">
+    <header class="main-header">
+  <a class="logo" href="/">
+    <img src="/images/contentjet-logo-white.svg" alt="contentjet" />
+  </a>
+
+  <nav class="main-nav">
+    <ul class="main-nav__list">
+      <li class="main-nav__item">
+        <a class="main-nav__anchor" href="/documentation">Documentation</a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+    <div class="main">
+      <div class="doc">
+        <aside class="doc__sidebar">
+          <nav class="doc-nav">
+            <ul class="doc-nav__list">
+              
+                <li class="doc-nav__item">
+                <a class="doc-nav__anchor" href="/documentation">Overview</a>
+                </li>
+                
+                <li class="doc-nav__item">
+                <a class="doc-nav__anchor" href="/documentation/projects">Projects</a>
+                </li>
+                
+                <li class="doc-nav__item">
+                <a class="doc-nav__anchor" href="/documentation/users">Users</a>
+                </li>
+                
+                <li class="doc-nav__item active">
+                <a class="doc-nav__anchor" href="/documentation/entry-types">Entry Types</a>
+                </li>
+                
+                <li class="doc-nav__item">
+                <a class="doc-nav__anchor" href="/documentation/media">Media</a>
+                </li>
+                
+                <li class="doc-nav__item">
+                <a class="doc-nav__anchor" href="/documentation/webhooks">Web Hooks</a>
+                </li>
+                
+              </ul>
+            </nav>
+          </aside>
+          <section class="doc__content">
+            <h1 id="entry-types">Entry Types</h1>
+<p>An Entry Type describes the structure of your content. Unlike traditional content management systems, contentjet allows you to freely add custom fields to describe your content. There are 7 core field types to choose from with most fields supporting an additional format for a total of 13 possible field types!</p>
+<p>So what is a format you ask? A format describes how the field should be presented in the UI and/or how it should be validated. For example, if you add a <em>Text</em> field with it&#39;s format set to <em>email</em> this tells the API to validate the field&#39;s value as an email address. Depending on the field type some formats cause the field to render differently in the UI. Take the <em>Long text</em> field for example. When it&#39;s format is set to <em>markdown</em> the contentjet UI will render a full-featured markdown editor as opposed to a standard textara for the <em>plaintext</em> format.</p>
+<h2 id="text">Text</h2>
+<p>Used for entering small amounts of text like people or product names.</p>
+<table>
+<thead>
+<tr>
+<th>Format</th>
+<th>API validation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>plaintext</td>
+<td>No</td>
+</tr>
+<tr>
+<td>email</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>uri</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<h2 id="long-text">Long text</h2>
+<table>
+<thead>
+<tr>
+<th>Format</th>
+<th>API validation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>plaintext</td>
+<td>No</td>
+</tr>
+<tr>
+<td>markdown</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<h2 id="boolean">Boolean</h2>
+<h2 id="number">Number</h2>
+<table>
+<thead>
+<tr>
+<th>Format</th>
+<th>API validation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>number</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>integer</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<h2 id="date">Date</h2>
+<table>
+<thead>
+<tr>
+<th>Format</th>
+<th>API validation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>date</td>
+<td>No</td>
+</tr>
+<tr>
+<td>datetime</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<h2 id="choice">Choice</h2>
+<table>
+<thead>
+<tr>
+<th>Format</th>
+<th>API validation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>single</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>multiple</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<h2 id="color">Color</h2>
+<table>
+<thead>
+<tr>
+<th>Format</th>
+<th>API validation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rgb</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>rgba</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<h2 id="media">Media</h2>
+<h2 id="link">Link</h2>
+<h2 id="list">List</h2>
+
+          </section>
+        </div>
+    </div>
+  </body>
+</html>
