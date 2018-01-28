@@ -212,15 +212,17 @@ h4 {
   }
 
   &__column {
-    perspective: 1000px;
+    perspective: 1600px;
+    max-width: 50%;
 
     &:first-child {
-      padding-right: 15px;
+      padding-right: 25px;
     }
   }
 
   &__image {
-    transform: rotateY(-25deg);
+    box-shadow: 30px 20px 20px rgba(0, 0, 0, 0.2);
+    transform: rotateY(-35deg);
     transform-origin: left;
   }
 }
