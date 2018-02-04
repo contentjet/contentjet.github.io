@@ -36,6 +36,7 @@ body {
   font-size: 16px;
   height: 100%;
   line-height: 1.42857143em;
+  background: var(--light-grey);
 }
 
 table {
@@ -186,9 +187,9 @@ h4 {
   background: linear-gradient(135deg, #20cbfd 0%,#fd1555 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 
   margin: 0 -15px;
-  padding: 100px 0;
+  padding: 100px 0 300px;
   color: #fff;
-  text-align: left;
+  text-align: center;
 
   h1,
   h2 {
@@ -199,36 +200,45 @@ h4 {
     font-size: 38px;
     font-weight: 700;
     line-height: 1.2em;
+    margin-bottom: 0.35em;
   }
 
   h2 {
     font-size: 18px;
     line-height: 1.3em;
+    margin-bottom: 4em;
   }
 
   &__inner {
-    display: flex;
     max-width: 960px;
     margin: 0 auto;
   }
 
-  &__column {
-    perspective: 1600px;
-    max-width: 50%;
+  &__content {
 
-    &:first-child {
-      padding-right: 25px;
-    }
+  }
+
+  &__image-holder {
+    position: absolute;
+    left: 50%;
+    margin-left: -360px;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, .25);
   }
 
   &__image {
-    box-shadow: 30px 20px 20px rgba(0, 0, 0, 0.2);
-    transform: rotateY(-35deg) translateX(-8%);
+    display: block;
   }
 }
 
 .features {
-  padding: 50px 0;
+  padding: 150px 0 50px;
+  background: white;
+  margin: 0 -15px;
+
+  &__title {
+    text-align: center;
+    font-size: 28px;
+  }
 
   .fa {
     color: var(--brand-secondary);
@@ -265,7 +275,6 @@ h4 {
 .call-to-action {
   text-align: center;
   padding: 50px 0;
-  background: var(--lighter-grey);
   margin: 0 -15px;
 
   .get-started-button {
