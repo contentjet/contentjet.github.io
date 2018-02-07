@@ -13,6 +13,37 @@ layout: guide.ejs
 
 [Install Docker Compose](https://docs.docker.com/compose/install/#install-compose)
 
+## Generate certificates with Let's Encrypt
+
+```
+docker run \
+  --name temp-server \
+  --rm \
+  -d \
+  -v certs:/etc/letsencrypt \
+  -v certs-data:/data/letsencrypt \
+  -w /data/letsencrypt \
+  -p 80:8000 \
+  python:alpine3.6 \
+  python -m http.server 8000
+```
+
+```
+docker run \
+  -it \
+  --rm \
+  -v certs:/etc/letsencrypt \
+  -v certs-data:/data/letsencrypt \
+  certbot/certbot \
+  certonly \
+  --webroot \
+  --webroot-path=/data/letsencrypt \
+  -d example.com \
+  -d app.example.com \
+  -d api.example.com \
+  -d media.example.com
+```
+
 ## Configure NGINX
 
 ```
@@ -79,16 +110,18 @@ http {
 
         add_header                Strict-Transport-Security "max-age=31536000" always;
 
-        proxy_pass                http://api:3000;
-        proxy_http_version        1.1;
-        proxy_set_header          Upgrade $http_upgrade;
-        proxy_set_header          Connection 'upgrade';
-        proxy_set_header          Host $host;
-        proxy_cache_bypass        $http_upgrade;
-
         ssl_certificate           /etc/letsencrypt/live/api.example.com/fullchain.pem;
         ssl_certificate_key       /etc/letsencrypt/live/api.example.com/privkey.pem;
         ssl_trusted_certificate   /etc/letsencrypt/live/api.example.com/chain.pem;
+
+        location / {
+            proxy_pass                http://api:3000;
+            proxy_http_version        1.1;
+            proxy_set_header          Upgrade $http_upgrade;
+            proxy_set_header          Connection 'upgrade';
+            proxy_set_header          Host $host;
+            proxy_cache_bypass        $http_upgrade;
+        }
     }
 
     server {
@@ -121,6 +154,7 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - ./contentjet-ui/dist:/opt/contentjet-ui
+      - certs:/etc/letsencrypt
       - media:/opt/contentjet-api/media/
   db:
     image: postgres:9.6.2
@@ -148,24 +182,10 @@ services:
       FRONTEND_URL: https://app.example.com
     volumes:
       - media:/opt/contentjet-api/media/
-    ports:
-      - "80:3000"
 volumes:
   media:
-```
-
-## Generate certificates with Let's Encrypt
-
-```
-docker run -it --rm \
-  -v certs:/etc/letsencrypt \
-  -v certs-data:/data/letsencrypt \
-  certbot/certbot \
-  certonly \
-  --webroot \
-  --webroot-path=/data/letsencrypt \
-  -d example.com \
-  -d app.example.com \
-  -d api.example.com \
-  -d media.example.com
+  certs:
+    external: true
+  certs-data:
+    external: true
 ```
