@@ -13,25 +13,21 @@ layout: guide.ejs
 
 [Install Docker Compose](https://docs.docker.com/compose/install/#install-compose)
 
-## Generate certificates with Let's Encrypt
-
-```
-docker run -it --rm \
-  -v certs:/etc/letsencrypt \
-  -v certs-data:/data/letsencrypt \
-  certbot/certbot \
-  certonly \
-  --webroot --webroot-path=/data/letsencrypt \
-  -d example.com \
-  -d app.example.com \
-  -d api.example.com \
-  -d media.example.com
-```
-
 ## Configure NGINX
 
 ```
+user              nginx;
+worker_processes  1;
+
+pid               /var/run/nginx.pid;
+
+events {
+    worker_connections  1024;
+}
+
 http {
+    include                   /etc/nginx/mime.types;
+    default_type              application/octet-stream;
 
     ssl_session_cache         shared:SSL:20m;
     ssl_session_timeout       10m;
@@ -50,7 +46,7 @@ http {
 
     server {
         listen 80;
-        server_name app.example.com;
+        server_name *.example.com;
 
         location / {
             return 301 https://$host$request_uri;
@@ -72,16 +68,47 @@ http {
         ssl_certificate           /etc/letsencrypt/live/app.example.com/fullchain.pem;
         ssl_certificate_key       /etc/letsencrypt/live/app.example.com/privkey.pem;
         ssl_trusted_certificate   /etc/letsencrypt/live/app.example.com/chain.pem;
+
+        root                      /opt/contentjet-ui/;
+    }
+
+    server {
+        listen      443           ssl http2;
+        listen [::]:443           ssl http2;
+        server_name               api.example.com;
+
+        add_header                Strict-Transport-Security "max-age=31536000" always;
+
+        proxy_pass                http://api:3000;
+        proxy_http_version        1.1;
+        proxy_set_header          Upgrade $http_upgrade;
+        proxy_set_header          Connection 'upgrade';
+        proxy_set_header          Host $host;
+        proxy_cache_bypass        $http_upgrade;
+
+        ssl_certificate           /etc/letsencrypt/live/api.example.com/fullchain.pem;
+        ssl_certificate_key       /etc/letsencrypt/live/api.example.com/privkey.pem;
+        ssl_trusted_certificate   /etc/letsencrypt/live/api.example.com/chain.pem;
+    }
+
+    server {
+        listen      443           ssl http2;
+        listen [::]:443           ssl http2;
+        server_name               media.example.com;
+
+        add_header                Strict-Transport-Security "max-age=31536000" always;
+
+        ssl_certificate           /etc/letsencrypt/live/media.example.com/fullchain.pem;
+        ssl_certificate_key       /etc/letsencrypt/live/media.example.com/privkey.pem;
+        ssl_trusted_certificate   /etc/letsencrypt/live/media.example.com/chain.pem;
+
+        root                      /opt/contentjet-api/media/;
     }
 
 }
 ```
 
 ## Configure Docker Compose
-
-```
-mkdir -p /opt/contentjet
-```
 
 ```
 version: '3.4'
@@ -91,6 +118,10 @@ services:
     ports:
       - 80:80
       - 443:443
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./contentjet-ui/dist:/opt/contentjet-ui
+      - media:/opt/contentjet-api/media/
   db:
     image: postgres:9.6.2
     restart: always
@@ -121,4 +152,20 @@ services:
       - "80:3000"
 volumes:
   media:
+```
+
+## Generate certificates with Let's Encrypt
+
+```
+docker run -it --rm \
+  -v certs:/etc/letsencrypt \
+  -v certs-data:/data/letsencrypt \
+  certbot/certbot \
+  certonly \
+  --webroot \
+  --webroot-path=/data/letsencrypt \
+  -d example.com \
+  -d app.example.com \
+  -d api.example.com \
+  -d media.example.com
 ```
