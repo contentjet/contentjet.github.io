@@ -38,7 +38,6 @@ docker run \
   certonly \
   --webroot \
   --webroot-path=/data/letsencrypt \
-  -d example.com \
   -d app.example.com \
   -d api.example.com \
   -d media.example.com
@@ -70,6 +69,8 @@ http {
     ssl_stapling              on;
     ssl_stapling_verify       on;
 
+    add_header                Strict-Transport-Security "max-age=31536000" always;
+
     resolver                  8.8.8.8 8.8.4.4;
 
     access_log                /dev/stdout;
@@ -94,8 +95,6 @@ http {
         listen [::]:443           ssl http2;
         server_name               app.example.com;
 
-        add_header                Strict-Transport-Security "max-age=31536000" always;
-
         ssl_certificate           /etc/letsencrypt/live/app.example.com/fullchain.pem;
         ssl_certificate_key       /etc/letsencrypt/live/app.example.com/privkey.pem;
         ssl_trusted_certificate   /etc/letsencrypt/live/app.example.com/chain.pem;
@@ -107,8 +106,6 @@ http {
         listen      443           ssl http2;
         listen [::]:443           ssl http2;
         server_name               api.example.com;
-
-        add_header                Strict-Transport-Security "max-age=31536000" always;
 
         ssl_certificate           /etc/letsencrypt/live/api.example.com/fullchain.pem;
         ssl_certificate_key       /etc/letsencrypt/live/api.example.com/privkey.pem;
@@ -128,8 +125,6 @@ http {
         listen      443           ssl http2;
         listen [::]:443           ssl http2;
         server_name               media.example.com;
-
-        add_header                Strict-Transport-Security "max-age=31536000" always;
 
         ssl_certificate           /etc/letsencrypt/live/media.example.com/fullchain.pem;
         ssl_certificate_key       /etc/letsencrypt/live/media.example.com/privkey.pem;
