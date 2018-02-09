@@ -24,7 +24,7 @@ docker run \
   -v certs-data:/data/letsencrypt \
   -w /data/letsencrypt \
   -p 80:8000 \
-  python:alpine3.6 \
+  python:alpine3.7 \
   python -m http.server 8000
 ```
 
@@ -36,11 +36,19 @@ docker run \
   -v certs-data:/data/letsencrypt \
   certbot/certbot \
   certonly \
+  --preferred-challenges http \
+  --agree-tos \
   --webroot \
   --webroot-path=/data/letsencrypt \
+  --non-interactive \
+  -m youremail@example.com \
   -d app.example.com \
   -d api.example.com \
   -d media.example.com
+```
+
+```
+docker stop temp-server
 ```
 
 ## Configure NGINX
@@ -77,7 +85,7 @@ http {
     error_log                 /dev/stderr info;
 
     server {
-        listen 80;
+        listen 80 default_server;
         server_name *.example.com;
 
         location / {
@@ -100,6 +108,7 @@ http {
         ssl_trusted_certificate   /etc/letsencrypt/live/app.example.com/chain.pem;
 
         root                      /opt/contentjet-ui/;
+        try_files                 $uri /index.html;
     }
 
     server {
@@ -150,6 +159,7 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - ./contentjet-ui/dist:/opt/contentjet-ui
       - certs:/etc/letsencrypt
+      - certs-data:/data/letsencrypt
       - media:/opt/contentjet-api/media/
   db:
     image: postgres:9.6.2
