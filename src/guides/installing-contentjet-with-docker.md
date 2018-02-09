@@ -172,10 +172,10 @@ services:
     image: contentjet/contentjet-api:0.6.0
     restart: always
     environment:
-      DB_HOST: db
-      DB_USER: yourdbuser
-      DB_PASS: yourdbpassword
-      DB_NAME: contentjet-api
+      POSTGRES_HOST: db
+      POSTGRES_USER: yourdbuser
+      POSTGRES_PASSWORD: yourdbpassword
+      POSTGRES_DB: contentjet-api
       SECRET_KEY: yoursupersecretkey
       NODE_ENV: production
       MAIL_BACKEND: mailgun
