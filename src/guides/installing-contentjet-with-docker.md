@@ -107,8 +107,11 @@ http {
         ssl_certificate_key       /etc/letsencrypt/live/app.example.com/privkey.pem;
         ssl_trusted_certificate   /etc/letsencrypt/live/app.example.com/chain.pem;
 
-        root                      /opt/contentjet-ui/;
-        try_files                 $uri /index.html;
+        location / {
+            proxy_pass                http://ui:9000;
+            proxy_http_version        1.1;
+            proxy_set_header          Host $host;
+        }
     }
 
     server {
@@ -157,7 +160,6 @@ services:
       - 443:443
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
-      - ./contentjet-ui/dist:/opt/contentjet-ui
       - certs:/etc/letsencrypt
       - certs-data:/data/letsencrypt
       - media:/opt/contentjet-api/media/
@@ -169,7 +171,7 @@ services:
       POSTGRES_PASSWORD: yourdbpassword
       POSTGRES_DB: contentjet-api
   api:
-    image: contentjet/contentjet-api:0.6.0
+    image: contentjet/contentjet-api
     restart: always
     environment:
       POSTGRES_HOST: db
@@ -187,6 +189,12 @@ services:
       FRONTEND_URL: https://app.example.com
     volumes:
       - media:/opt/contentjet-api/media/
+  ui:
+    image: contentjet/contentjet-ui
+    restart: always
+    environment:
+      BACKEND_URL: https://api.example.com
+      PORT: 9000
 volumes:
   media:
   certs:
