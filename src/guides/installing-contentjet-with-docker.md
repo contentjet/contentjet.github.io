@@ -23,14 +23,14 @@ You must also have:
 
 We will host contentjet with the following 3 subdomains as follows:
 
-* app.example.com
-  Will host the contentjet frontend, contentjet-ui
+  * **app.example.com**
+    Will host the contentjet frontend, contentjet-ui
 
-* api.example.com
-  Will host the contentjet backend, contentjet-api
+  * **api.example.com**
+    Will host the contentjet backend, contentjet-api
 
-* media.example.com
-  Will host user uploaded media
+  * **media.example.com**
+    Will host user uploaded media
 
 You must log into your domain registrar and create 3x A records for **app**, **api** and **media** all pointing to the IP address of your server.
 
@@ -82,13 +82,15 @@ docker run \
   -d media.example.com
 ```
 
-Assuming the above command executes successfully the certificates will have been written to our named volume. You MUST now stop the temporary server as it's no longer needed.
+Assuming the above command executes successfully the certificates will have been written to our named volume. **You MUST now stop the temporary server**.
 
 ```
 docker stop temp-server
 ```
 
 ## Configure NGINX
+
+Next we will configure NGINX. Copy the following text and save it to **/opt/contentjet/nginx.conf** on your server.
 
 ```
 user              nginx;
@@ -179,11 +181,15 @@ http {
 }
 ```
 
+Now we just need to change every occurance of **example.com** to _your_ actual domain. We can do this easily using `sed`. For example if your domain name was **acme.com** you would run the following command from within the **/opt/contentjet/** directory.
+
 ```
-sed -i -e 's/example.com/acme.io/g' nginx.conf
+sed -i -e 's/example.com/acme.com/g' nginx.conf
 ```
 
 ## Configure Docker Compose
+
+Next copy the following and save it to **/opt/contentjet/docker-compose.yml**.
 
 ```
 version: '3.4'
@@ -238,7 +244,23 @@ volumes:
     external: true
 ```
 
+Similar to the change we made to **nginx.conf** we need to replace all occurances of **example.com** with _your_ domain name. Again, this can be done quickly using `sed` by running the following from within the **/opt/contentjet** directory.
+
+```
+sed -i -e 's/example.com/acme.com/g' docker-compose.yml
+```
+
+We need to make some additional edits to the environment variables within this file.
+
+TODO
+
+```
+docker-compose up -d
+```
+
 ## Create an administrator
+
+At this point contentjet should be running on your domain however there are no users! Create your first user by running the following command and entering your email address and your desired password at the prompt.
 
 ```
 docker-compose exec api npm run create-admin-user
