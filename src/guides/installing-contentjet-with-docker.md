@@ -77,6 +77,10 @@ http {
     ssl_stapling              on;
     ssl_stapling_verify       on;
 
+    ssl_certificate           /etc/letsencrypt/live/example.com/fullchain.pem;
+    ssl_certificate_key       /etc/letsencrypt/live/example.com/privkey.pem;
+    ssl_trusted_certificate   /etc/letsencrypt/live/example.com/chain.pem;
+
     add_header                Strict-Transport-Security "max-age=31536000" always;
 
     resolver                  8.8.8.8 8.8.4.4;
@@ -103,10 +107,6 @@ http {
         listen [::]:443           ssl http2;
         server_name               app.example.com;
 
-        ssl_certificate           /etc/letsencrypt/live/app.example.com/fullchain.pem;
-        ssl_certificate_key       /etc/letsencrypt/live/app.example.com/privkey.pem;
-        ssl_trusted_certificate   /etc/letsencrypt/live/app.example.com/chain.pem;
-
         location / {
             proxy_pass                http://ui:9000;
             proxy_http_version        1.1;
@@ -118,10 +118,6 @@ http {
         listen      443           ssl http2;
         listen [::]:443           ssl http2;
         server_name               api.example.com;
-
-        ssl_certificate           /etc/letsencrypt/live/api.example.com/fullchain.pem;
-        ssl_certificate_key       /etc/letsencrypt/live/api.example.com/privkey.pem;
-        ssl_trusted_certificate   /etc/letsencrypt/live/api.example.com/chain.pem;
 
         location / {
             proxy_pass                http://api:3000;
@@ -138,14 +134,14 @@ http {
         listen [::]:443           ssl http2;
         server_name               media.example.com;
 
-        ssl_certificate           /etc/letsencrypt/live/media.example.com/fullchain.pem;
-        ssl_certificate_key       /etc/letsencrypt/live/media.example.com/privkey.pem;
-        ssl_trusted_certificate   /etc/letsencrypt/live/media.example.com/chain.pem;
-
         root                      /opt/contentjet-api/media/;
     }
 
 }
+```
+
+```
+sed -i -e 's/example.com/acme.io/g' nginx.conf
 ```
 
 ## Configure Docker Compose
@@ -201,4 +197,10 @@ volumes:
     external: true
   certs-data:
     external: true
+```
+
+## Create an administrator
+
+```
+docker-compose exec api npm run create-admin-user
 ```
