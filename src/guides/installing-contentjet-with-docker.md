@@ -5,15 +5,48 @@ layout: guide.ejs
 
 # Installing contentjet with Docker
 
-## Prerequisites
+In this guide we will install contentjet onto a single host running Ubuntu 16.04 with Docker. By the end of this guide you will have a complete installation of contentjet cms secured with free TLS certificates provided by Let's Encrypt.
+
+To complete this installation you must possess the following knowledge:
+
+* Navigating a linux command line, specifically the BASH shell
+* Connecting to a remote server over SSH
+* Configuration of DNS
+* Basic understanding of Docker
+
+You must also have:
+
+* A server running a fresh install of Ubuntu 16.04 which you can SSH into ([DigitalOcean](https://www.digitalocean.com/) is a good choice)
+* A domain name registered through a registrar which gives you full access to the domain's DNS records
+
+## Configure DNS
+
+We will host contentjet with the following 3 subdomains as follows:
+
+* app.example.com
+  Will host the contentjet frontend, contentjet-ui
+
+* api.example.com
+  Will host the contentjet backend, contentjet-api
+
+* media.example.com
+  Will host user uploaded media
+
+You must log into your domain registrar and create 3x A records for **app**, **api** and **media** all pointing to the IP address of your server.
 
 ## Install Docker & Docker Compose
+
+Connect to your server over SSH and install Docker and Docker Compose. Refer to the following guides provided by DigitalOcean.
 
 [How To Install and Use Docker on Ubuntu 16.04](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04)
 
 [Install Docker Compose](https://docs.docker.com/compose/install/#install-compose)
 
 ## Generate certificates with Let's Encrypt
+
+In this step we will generate the free certificates for your 3 subdomains.
+
+Run the following command to start a temporary server on port 80. This will create 2 named volumes which are used for storing the certificates generated in the next step as well as the challenge files required as part of Let's Encrypt's validation step.
 
 ```
 docker run \
@@ -27,6 +60,8 @@ docker run \
   python:alpine3.7 \
   python -m http.server 8000
 ```
+
+Next, run the following command to request certificates from Let's Encrypt. **Make sure you change the last 4 lines of this command to reflect your own email address and domain**.
 
 ```
 docker run \
@@ -46,6 +81,8 @@ docker run \
   -d api.example.com \
   -d media.example.com
 ```
+
+Assuming the above command executes successfully the certificates will have been written to our named volume. You MUST now stop the temporary server as it's no longer needed.
 
 ```
 docker stop temp-server
@@ -119,6 +156,8 @@ http {
         listen [::]:443           ssl http2;
         server_name               api.example.com;
 
+        client_max_body_size      200M;
+
         location / {
             proxy_pass                http://api:3000;
             proxy_http_version        1.1;
@@ -179,7 +218,7 @@ services:
       MAIL_BACKEND: mailgun
       MAILGUN_API_KEY: yourapikey
       MAILGUN_DOMAIN: yourdomain
-      MAIL_FROM: noreply@yourdomain.com
+      MAIL_FROM: noreply@example.com
       BACKEND_URL: https://api.example.com
       MEDIA_URL: https://media.example.com
       FRONTEND_URL: https://app.example.com
