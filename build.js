@@ -29,7 +29,6 @@ let metalsmith = Metalsmith(__dirname)
   )
   .use(
     collections({
-      guides: 'guides/*.md',
       docs: {
         pattern: [
           'documentation/*.md'

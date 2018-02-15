@@ -1,18 +1,19 @@
 ---
-title: Installing contentjet with Docker
-layout: guide.ejs
+title: Install with Docker
+layout: doc.ejs
+order: 5
 ---
 
 # Installing contentjet with Docker
 
-In this guide we will install contentjet onto a single host running Ubuntu 16.04 with Docker. By the end of this guide you will have a complete installation of contentjet cms secured with free TLS certificates provided by Let's Encrypt.
+In this guide we will install contentjet onto a single host running Ubuntu 16.04 with Docker. By the end of this guide you will have a complete installation of contentjet secured with free TLS certificates provided by [Let's Encrypt](https://letsencrypt.org/).
 
 To complete this installation you must possess the following knowledge:
 
 * Navigating a linux command line, specifically the BASH shell
 * Connecting to a remote server over SSH
 * Configuration of DNS
-* Basic understanding of Docker
+* An understanding of Docker
 
 You must also have:
 
@@ -25,10 +26,8 @@ We will host contentjet with the following 3 subdomains as follows:
 
   * **app.example.com**
     Will host the contentjet frontend, contentjet-ui
-
   * **api.example.com**
     Will host the contentjet backend, contentjet-api
-
   * **media.example.com**
     Will host user uploaded media
 
@@ -36,11 +35,14 @@ You must log into your domain registrar and create 3x A records for **app**, **a
 
 ## Install Docker & Docker Compose
 
-Connect to your server over SSH and install Docker and Docker Compose. Refer to the following guides provided by DigitalOcean.
+Connect to your server over SSH and install Docker.
 
-[How To Install and Use Docker on Ubuntu 16.04](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04)
+```bash
+curl -fsSL get.docker.com -o get-docker.sh
+sh get-docker.sh
+```
 
-[Install Docker Compose](https://docs.docker.com/compose/install/#install-compose)
+Refer to the official documentation on [installing Docker Compose](https://docs.docker.com/compose/install/#install-compose).
 
 ## Generate certificates with Let's Encrypt
 
@@ -48,7 +50,7 @@ In this step we will generate the free certificates for your 3 subdomains.
 
 Run the following command to start a temporary server on port 80. This will create 2 named volumes which are used for storing the certificates generated in the next step as well as the challenge files required as part of Let's Encrypt's validation step.
 
-```
+```bash
 docker run \
   --name temp-server \
   --rm \
@@ -63,7 +65,7 @@ docker run \
 
 Next, run the following command to request certificates from Let's Encrypt. **Make sure you change the last 4 lines of this command to reflect your own email address and domain**.
 
-```
+```bash
 docker run \
   -it \
   --rm \
@@ -84,7 +86,7 @@ docker run \
 
 Assuming the above command executes successfully the certificates will have been written to our named volume. **You MUST now stop the temporary server**.
 
-```
+```bash
 docker stop temp-server
 ```
 
@@ -92,7 +94,7 @@ docker stop temp-server
 
 Next we will configure NGINX. Copy the following text and save it to **/opt/contentjet/nginx.conf** on your server.
 
-```
+```nginx
 user              nginx;
 worker_processes  1;
 
@@ -121,8 +123,6 @@ http {
     ssl_trusted_certificate   /etc/letsencrypt/live/example.com/chain.pem;
 
     add_header                Strict-Transport-Security "max-age=31536000" always;
-
-    resolver                  8.8.8.8 8.8.4.4;
 
     access_log                /dev/stdout;
     error_log                 /dev/stderr info;
@@ -175,15 +175,17 @@ http {
         listen [::]:443           ssl http2;
         server_name               media.example.com;
 
+        expires                   1M;
+
         root                      /opt/contentjet-api/media/;
     }
 
 }
 ```
 
-Now we just need to change every occurance of **example.com** to _your_ actual domain. We can do this easily using `sed`. For example if your domain name was **acme.com** you would run the following command from within the **/opt/contentjet/** directory.
+We now need to change every occurance of **example.com** to your actual domain. We can do this easily using `sed`. For example if your domain name was **acme.com** you would run the following command from within the **/opt/contentjet/** directory.
 
-```
+```bash
 sed -i -e 's/example.com/acme.com/g' nginx.conf
 ```
 
@@ -191,7 +193,7 @@ sed -i -e 's/example.com/acme.com/g' nginx.conf
 
 Next copy the following and save it to **/opt/contentjet/docker-compose.yml**.
 
-```
+```yaml
 version: '3.4'
 services:
   nginx:
@@ -208,23 +210,25 @@ services:
     image: postgres:9.6.2
     restart: always
     environment:
-      POSTGRES_USER: yourdbuser
-      POSTGRES_PASSWORD: yourdbpassword
+      POSTGRES_USER: yourdbuser # CHANGE ME
+      POSTGRES_PASSWORD: yourdbpassword # CHANGE ME
       POSTGRES_DB: contentjet-api
   api:
     image: contentjet/contentjet-api
     restart: always
     environment:
-      POSTGRES_HOST: db
-      POSTGRES_USER: yourdbuser
-      POSTGRES_PASSWORD: yourdbpassword
-      POSTGRES_DB: contentjet-api
-      SECRET_KEY: yoursupersecretkey
       NODE_ENV: production
-      MAIL_BACKEND: mailgun
-      MAILGUN_API_KEY: yourapikey
-      MAILGUN_DOMAIN: yourdomain
-      MAIL_FROM: noreply@example.com
+      POSTGRES_HOST: db
+      POSTGRES_USER: yourdbuser # CHANGE ME
+      POSTGRES_PASSWORD: yourdbpassword # CHANGE ME
+      POSTGRES_DB: contentjet-api
+      SECRET_KEY: yoursupersecretkey # CHANGE ME
+      MAIL_BACKEND: smtp
+      SMTP_HOST: smtphost # CHANGE ME
+      SMTP_PORT: smtpport # CHANGE ME
+      SMTP_AUTH_USER: smtpuser # CHANGE ME
+      SMTP_AUTH_PASS: smtppass # CHANGE ME
+      MAIL_FROM: noreply@example.com # CHANGE ME
       BACKEND_URL: https://api.example.com
       MEDIA_URL: https://media.example.com
       FRONTEND_URL: https://app.example.com
@@ -246,22 +250,28 @@ volumes:
 
 Similar to the change we made to **nginx.conf** we need to replace all occurances of **example.com** with _your_ domain name. Again, this can be done quickly using `sed` by running the following from within the **/opt/contentjet** directory.
 
-```
+```bash
 sed -i -e 's/example.com/acme.com/g' docker-compose.yml
 ```
 
-We need to make some additional edits to the environment variables within this file.
+We need to make some additional edits to the environment variables within this file. As you can see there are 4 services defined _**nginx**_, _**db**_, _**api**_ and _**ui**_. You MUST provide values for the lines commented with **`#CHANGE ME`**.
 
-TODO
+`SECRET_KEY` simply needs to be a unique random string of your choosing. Make sure you keep it secret as it's used in encrypting passwords and tokens.
 
-```
+This configuration assumes SMTP as the mail backend though [mailgun](https://www.mailgun.com) is also supported. To use mailgun set `MAIL_BACKEND: mailgun`, remove all `SMTP_*` and add `MAILGUN_API_KEY` and `MAILGUN_DOMAIN`.
+
+## Run services
+
+```bash
 docker-compose up -d
 ```
+
+Docker will now automatically pull the necessary images and start all services. To confirm everything is running navigate to `https://app.yourdomain.com`.
 
 ## Create an administrator
 
 At this point contentjet should be running on your domain however there are no users! Create your first user by running the following command and entering your email address and your desired password at the prompt.
 
-```
+```bash
 docker-compose exec api npm run create-admin-user
 ```

@@ -187,7 +187,7 @@ h4 {
   background: linear-gradient(135deg, #20cbfd 0%,#fd1555 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 
   margin: 0 -15px;
-  padding: 100px 0 300px;
+  padding: 150px 0 300px;
   color: #fff;
   text-align: center;
 
@@ -206,7 +206,7 @@ h4 {
   h2 {
     font-size: 18px;
     line-height: 1.3em;
-    margin-bottom: 4em;
+    margin-bottom: 5.5em;
   }
 
   &__inner {
@@ -221,7 +221,7 @@ h4 {
   &__image-holder {
     position: absolute;
     left: 50%;
-    margin-left: -360px;
+    margin-left: -423.5px;
     box-shadow: 0 5px 30px rgba(0, 0, 0, .25);
   }
 
@@ -231,7 +231,7 @@ h4 {
 }
 
 .features {
-  padding: 150px 0 50px;
+  padding: 240px 0 80px;
   background: white;
   margin: 0 -15px;
 
@@ -282,22 +282,36 @@ h4 {
   }
 }
 
+.documentation {
+  background: #fff;
+
+  .main-header {
+    background: var(--light-grey);
+  }
+
+  .main {
+    background: #fff;
+  }
+}
+
 .doc {
   display: flex;
   padding: 20px 0;
 
   &__sidebar {
+    position: fixed;
     min-width: 180px;
   }
 
   &__content {
-    max-width: 800px;
-    margin-left: 25px;
+    max-width: 850px;
+    margin-left: 205px;
     flex-grow: 1;
   }
 }
 
 .doc-nav {
+  font-size: 14px;
 
   &__list {
     list-style: none;
