@@ -90,6 +90,12 @@ Assuming the above command executes successfully the certificates will have been
 docker stop temp-server
 ```
 
+Now create a cron job which runs every 5 days to automatically renew your certificates. Edit your cron with `crontab -e` and add the following:
+
+```bash
+0 0 */5 * *  docker run --rm -v certs:/etc/letsencrypt -v certs-data:/data/letsencrypt certbot/certbot renew -n >> /var/log/certbot.log
+```
+
 ## Configure NGINX
 
 Next we will configure NGINX. Copy the following text and save it to **/opt/contentjet/nginx.conf** on your server.
@@ -223,11 +229,10 @@ services:
       POSTGRES_PASSWORD: yourdbpassword # CHANGE ME
       POSTGRES_DB: contentjet-api
       SECRET_KEY: yoursupersecretkey # CHANGE ME
-      MAIL_BACKEND: smtp
       SMTP_HOST: smtphost # CHANGE ME
       SMTP_PORT: smtpport # CHANGE ME
-      SMTP_AUTH_USER: smtpuser # CHANGE ME
-      SMTP_AUTH_PASS: smtppass # CHANGE ME
+      SMTP_USER: smtpuser # CHANGE ME
+      SMTP_PASSWORD: smtppassword # CHANGE ME
       MAIL_FROM: noreply@example.com # CHANGE ME
       BACKEND_URL: https://api.example.com
       MEDIA_URL: https://media.example.com
@@ -257,8 +262,6 @@ sed -i -e 's/example.com/acme.com/g' docker-compose.yml
 We need to make some additional edits to the environment variables within this file. As you can see there are 4 services defined _**nginx**_, _**db**_, _**api**_ and _**ui**_. You MUST provide values for the lines commented with **`#CHANGE ME`**.
 
 `SECRET_KEY` simply needs to be a unique random string of your choosing. Make sure you keep it secret as it's used in encrypting passwords and tokens.
-
-This configuration assumes SMTP as the mail backend though [mailgun](https://www.mailgun.com) is also supported. To use mailgun set `MAIL_BACKEND: mailgun`, remove all `SMTP_*` and add `MAILGUN_API_KEY` and `MAILGUN_DOMAIN`.
 
 ## Run services
 
