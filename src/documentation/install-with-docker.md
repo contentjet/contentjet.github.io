@@ -156,6 +156,14 @@ http {
             proxy_pass                http://ui:9000;
             proxy_http_version        1.1;
             proxy_set_header          Host $host;
+
+            gzip                      on;
+            gzip_min_length           1000;
+            gzip_proxied              any;
+            gzip_types                application/javascript
+                                      application/json
+                                      text/css
+                                      image/svg+xml;
         }
     }
 
