@@ -133,6 +133,9 @@ http {
     access_log                /dev/stdout;
     error_log                 /dev/stderr info;
 
+    # Docker's internal DNS
+    resolver                  127.0.0.11;
+
     server {
         listen 80 default_server;
         server_name *.example.com;
