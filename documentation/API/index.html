@@ -49,7 +49,35 @@
           </aside>
           <section class="doc__content">
             <h1 id="api">API</h1>
-<p>Coming soon</p>
+<p>Contentjet&#39;s API is self documenting by exposing an <a href="https://github.com/OAI/OpenAPI-Specification">Open API 3 specification</a>. The specification can be found at the path <code>/spec</code> on your install of <a href="https://github.com/contentjet/contentjet-api">contentjet-api</a> e.g <em><a href="https://api.yourdomain.com/spec">https://api.yourdomain.com/spec</a></em>. Readers are encouraged to visit <a href="https://swagger.io/">swagger.io</a> for information around Open API tooling, specifically <a href="SwaggerUI">Swagger UI</a> for generating documentation from the specification.</p>
+<p><em>TIP: You can paste the URL to your <code>/spec</code> endpoint in the Live Demo of <a href="SwaggerUI">Swagger UI</a> to see rendered API docs.</em></p>
+<h2 id="authentication">Authentication</h2>
+<p>Most endpoints exposed via the API require authentication. Contentjet adheres to the <strong>OAuth 2.0 Authorization Framework</strong> specifically the <a href="OAuth">Resource Owner Password Credentials Grant</a> flow.</p>
+<p>Request:</p>
+<pre><code class="lang-bash">curl -H &quot;Content-Type: application/json&quot; \
+  -d &#39;{&quot;username&quot;:&quot;johnsmith@example.com&quot;,&quot;password&quot;:&quot;mypassword&quot;,&quot;grant_type&quot;:&quot;password&quot;}&#39; \
+  https://api.yourdomain.com/user/authenticate
+</code></pre>
+<p>Response:</p>
+<pre><code class="lang-json">{
+  &quot;access_token&quot;: &quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTUxOTc4OTcwNiwiZXhwIjoxNTE5NzkyNzA2fQ.yYbuJ7m4u_PxyeIDw0TbAHko-cdyh0iVkUtd6hRJDAA&quot;,
+  &quot;token_type&quot;: &quot;bearer&quot;,
+  &quot;expires_in&quot;: 300,
+  &quot;refresh_token&quot;: &quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTUxOTc4OTcwNiwiZXhwIjoxNTE5NzkyNzA2fQ.yYbuJ7m4u_PxyeIDw0TbAHko-cdyh0iVkUtd6hRJDAA&quot;
+}
+</code></pre>
+<p>The authentication response contains <code>access_token</code> which is a <a href="JWT">JWT</a> identifying the authenticated user. The access token is used by adding it as the <code>Authorization</code> header when making requests to secure endpoints e.g.</p>
+<pre><code class="lang-bash">curl -H &quot;Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTUxOTc4OTcwNiwiZXhwIjoxNTE5NzkyNzA2fQ.yYbuJ7m4u_PxyeIDw0TbAHko-cdyh0iVkUtd6hRJDAA&quot; \
+  https://api.yourdomain.com/user/me
+</code></pre>
+<h3 id="refreshing-an-access-token">Refreshing an access token</h3>
+<p>For security reasons access tokens have a short lifespan and expire after only a few minutes. In order to stay authenticated with the API an access tokens must be refreshed before it expires by submitting the <code>refresh_token</code> to the <code>/user/token-refresh</code> endpoint.</p>
+<pre><code class="lang-bash">curl -H &quot;Content-Type: application/json&quot; \
+  -H &quot;Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTUxOTc4OTcwNiwiZXhwIjoxNTE5NzkyNzA2fQ.yYbuJ7m4u_PxyeIDw0TbAHko-cdyh0iVkUtd6hRJDAA&quot; \
+  -d &#39;{&quot;refresh_token&quot;: &quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTUxOTc4OTcwNiwiZXhwIjoxNTE5NzkyNzA2fQ.yYbuJ7m4u_PxyeIDw0TbAHko-cdyh0iVkUtd6hRJDAA&quot;,&quot;grant_type&quot;:&quot;refresh_token&quot;}&#39; \
+  https://api.yourdomain.com/user/token-refresh
+</code></pre>
+<p>You may have noticed the <code>access_token</code> and <code>refresh_token</code> are identical. While this is true, it&#39;s recommended you keep an explicit reference to the <code>refresh_token</code> separate from the <code>access_token</code> and only send the <code>refresh_token</code> value to the token refresh endpoint.</p>
 
           </section>
         </div>
