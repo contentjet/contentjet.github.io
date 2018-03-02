@@ -6,9 +6,9 @@ order: 10
 
 # API
 
-Contentjet's API is self documenting by exposing an [Open API 3 specification](https://github.com/OAI/OpenAPI-Specification). The specification can be found at the path `/spec` on your install of [contentjet-api](https://github.com/contentjet/contentjet-api) e.g _https://api.yourdomain.com/spec_. Readers are encouraged to visit [swagger.io](https://swagger.io/) for information around Open API tooling, specifically [Swagger UI](SwaggerUI) for generating documentation from the specification
+Contentjet's API is self documenting by exposing an [Open API 3 specification](https://github.com/OAI/OpenAPI-Specification). The specification can be found at the path `/spec` on your install of [contentjet-api](https://github.com/contentjet/contentjet-api) e.g _https://api.yourdomain.com/spec_. Readers are encouraged to visit [swagger.io](https://swagger.io/) for information around Open API tooling, specifically [Swagger UI](SwaggerUI) for generating documentation from the specification.
 
-_TIP: You can paste the URL to your `/spec` endpoint in the _Live Demo_ of [Swagger UI](SwaggerUI) to see rendered API docs._
+_TIP: You can paste the URL to your `/spec` endpoint in the Live Demo of [Swagger UI](SwaggerUI) to see rendered API docs._
 
 ## Authentication
 
@@ -50,6 +50,8 @@ curl -H "Content-Type: application/json" \
   -d '{"refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTUxOTc4OTcwNiwiZXhwIjoxNTE5NzkyNzA2fQ.yYbuJ7m4u_PxyeIDw0TbAHko-cdyh0iVkUtd6hRJDAA","grant_type":"refresh_token"}' \
   https://api.yourdomain.com/user/token-refresh
 ```
+
+You may have noticed the `access_token` and `refresh_token` are identical. While this is true, it's recommended you keep an explicit reference to the `refresh_token` separate from the `access_token` and only send the `refresh_token` value to the token refresh endpoint.
 
 
 [SwaggerUI]: https://swagger.io/swagger-ui/

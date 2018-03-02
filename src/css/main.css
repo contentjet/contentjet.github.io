@@ -80,6 +80,14 @@ h4 {
   line-height: 1em;
 }
 
+pre code {
+  font-size: 12px;
+}
+
+code {
+  color: #fd1555;
+}
+
 .button {
   background-image: none;
   border: 1px solid transparent;
@@ -176,7 +184,7 @@ h4 {
 }
 
 .main {
-  padding: 50px 15px 0 15px;
+  padding: 50px 10px 0 10px;
 }
 
 .hero {
@@ -186,7 +194,7 @@ h4 {
   background: -webkit-linear-gradient(-45deg, #20cbfd 0%,#fd1555 100%); /* Chrome10-25,Safari5.1-6 */
   background: linear-gradient(135deg, #20cbfd 0%,#fd1555 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 
-  margin: 0 -15px;
+  margin: 0 -10px;
   padding: 150px 0 300px;
   color: #fff;
   text-align: center;
@@ -233,7 +241,7 @@ h4 {
 .features {
   padding: 240px 0 80px;
   background: white;
-  margin: 0 -15px;
+  margin: 0 -10px;
 
   &__title {
     text-align: center;
@@ -274,11 +282,13 @@ h4 {
 
 .call-to-action {
   text-align: center;
-  padding: 50px 0;
-  margin: 0 -15px;
+  padding: 70px 0;
+  margin: 0 -10px;
 
   .get-started-button {
     font-size: 22px;
+    padding-left: 25px;
+    padding-right: 25px;
   }
 }
 
@@ -296,7 +306,7 @@ h4 {
 
 .doc {
   display: flex;
-  padding: 20px 0;
+  padding: 20px 0 100px;
 
   &__sidebar {
     position: fixed;
