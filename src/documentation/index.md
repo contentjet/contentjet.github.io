@@ -17,7 +17,7 @@ The key design philosophy behind Contentjet is that _**content should exist free
 
 ### Custom Entry types
 
-Unlink traditional content management systems which limit content creation to a single _title_ and _body_ field, Contentjet let's you create your own entry types with custom fields. There are 13 fields to choose from such as text, boolean, date, multiple choice, colour and more!
+Unlike traditional content management systems which limit content creation to a single _title_ and _body_ field, Contentjet let's you create your own entry types with custom fields. There are 13 fields to choose from such as text, boolean, date, multiple choice, colour and more!
 
 ### Multiple projects
 
