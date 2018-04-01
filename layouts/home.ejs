@@ -4,6 +4,7 @@
     <title><%= locals.title ? `${title} | contentjet` : 'contentjet' %></title>
     <%- include('includes/stylesheets'); %>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
   </head>
   <body>
     <%- include('includes/header'); %>
@@ -14,7 +15,9 @@
             <%- contents %>
           </div>
           <div class="hero__image-holder">
-            <img class="hero__image" src="/images/media_cropped.png" height="470" alt="contentjet UI" />
+            <transition name="carousel">
+              <img class="hero__image" :key="activeSrc" :src="activeSrc" height="470" />
+            </transition>
           </div>
         </div>
       </section>
@@ -67,5 +70,45 @@
         <a href="/documentation" class="button button-primary get-started-button">Get started</a>
       </section>
     </div>
+
+    <div class="image-loader">
+      <img src="/images/hero1.png" />
+      <img src="/images/hero2.png" />
+      <img src="/images/hero3.png" />
+    </div>
+
+    <script>
+      const carousel = new Vue({
+        el: '.hero__image-holder',
+        data() {
+          return {
+            intervalId: null,
+            activeIndex: 0,
+            images: [
+              '/images/hero1.png',
+              '/images/hero2.png',
+              '/images/hero3.png'
+            ]
+          }
+        },
+        mounted() {
+          this.intervalId = window.setInterval(this.transition, 7000);
+        },
+        beforeDestroy() {
+          window.clearInterval(this.intervalId);
+        },
+        computed: {
+          activeSrc() {
+            return this.images[this.activeIndex]
+          }
+        },
+        methods: {
+          transition() {
+            this.activeIndex++;
+            if (this.activeIndex > this.images.length - 1) this.activeIndex = 0;
+          }
+        }
+      });
+    </script>
   </body>
 </html>
