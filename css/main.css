@@ -203,14 +203,29 @@ code {
 .hero__image-holder {
     position: absolute;
     left: 50%;
-    margin-left: -423.5px;
+    height: 470px;
+    width: 819.36px;
+    margin-left: -409.5px;
     -webkit-box-shadow: 0 5px 30px rgba(0, 0, 0, .25);
             box-shadow: 0 5px 30px rgba(0, 0, 0, .25);
   }
 
 .hero__image {
     display: block;
+    position: absolute;
+    -webkit-transition: opacity 1.75s linear;
+    transition: opacity 1.75s linear;
+    opacity: 1;
   }
+
+.hero__image.carousel-enter-active {
+      opacity: 1;
+    }
+
+.hero__image.carousel-leave-active {
+      opacity: 0;
+      z-index: 1;
+    }
 
 .features {
   padding: 240px 0 80px;
@@ -269,6 +284,10 @@ code {
     padding-left: 25px;
     padding-right: 25px;
   }
+
+.image-loader {
+  display: none;
+}
 
 .documentation {
   background: #fff;
