@@ -21,7 +21,7 @@ Unlike traditional content management systems which limit content creation to a 
 
 ### Multiple projects
 
-Projects are top-level buckets for holding content. Each project holds it's own entry types, entires, media and users. How you choose to use projects is entirely up to you.
+Projects are top-level buckets for holding content. Each project holds it's own entry types, entries, media and users. How you choose to use projects is entirely up to you.
 
 Users may be members of multiple projects. Each project maintains it's own user access list. For example a user may be an _administrator_ of one project but only an _author_ in another project.
 

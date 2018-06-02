@@ -30,6 +30,7 @@
     "metalsmith-permalinks": "^0.5.0",
     "metalsmith-postcss": "^4.1.1",
     "metalsmith-serve": "0.0.7",
+    "nodemon": "^1.17.5",
     "postcss-cssnext": "^3.0.2",
     "postcss-import": "^11.0.0",
     "postcss-nested": "^2.1.2",
