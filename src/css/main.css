@@ -82,6 +82,7 @@ h4 {
 
 pre code {
   font-size: 12px;
+  max-width: 100%;
 }
 
 code {
