@@ -336,6 +336,7 @@ code {
     max-width: 850px;
     margin-left: 205px;
     flex-grow: 1;
+    overflow-x: hidden;
   }
 }
 
