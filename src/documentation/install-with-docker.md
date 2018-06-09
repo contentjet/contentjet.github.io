@@ -48,6 +48,13 @@ Refer to the official documentation on [installing Docker Compose](https://docs.
 
 In this step we will generate the free certificates for your 3 subdomains.
 
+Begin by creating our working directory at **/opt/contentjet** which we will run all subsequent commands from.
+
+```bash
+mkdir -p /opt/contentjet
+cd /opt/contentjet
+```
+
 Run the following command to start a temporary server on port 80. This will create 2 named volumes which are used for storing the certificates generated in the next step as well as the challenge files required as part of Let's Encrypt's validation step.
 
 ```bash

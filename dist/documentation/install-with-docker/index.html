@@ -81,6 +81,10 @@ sh get-docker.sh
 <p>Refer to the official documentation on <a href="https://docs.docker.com/compose/install/#install-compose">installing Docker Compose</a>.</p>
 <h2 id="generate-certificates-with-let-s-encrypt">Generate certificates with Let&#39;s Encrypt</h2>
 <p>In this step we will generate the free certificates for your 3 subdomains.</p>
+<p>Begin by creating our working directory at <strong>/opt/contentjet</strong> which we will run all subsequent commands from.</p>
+<pre><code class="lang-bash">mkdir -p /opt/contentjet
+cd /opt/contentjet
+</code></pre>
 <p>Run the following command to start a temporary server on port 80. This will create 2 named volumes which are used for storing the certificates generated in the next step as well as the challenge files required as part of Let&#39;s Encrypt&#39;s validation step.</p>
 <pre><code class="lang-bash">docker run \
   --name temp-server \
