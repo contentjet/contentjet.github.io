@@ -16,7 +16,7 @@ Most endpoints exposed via the API require authentication. Contentjet adheres to
 
 ### Resource Owner Password Credentials Grant
 
-The [Resource Owner Password Credentials Grant](https://tools.ietf.org/html/rfc6749#section-4.3) flow is used when authenticating with the backend as a user. This is useful if you need to _write_ data to the API. Note this is the flow contentjet-ui uses when you enter your email and password into the login form!
+The [Resource Owner Password Credentials Grant](https://tools.ietf.org/html/rfc6749#section-4.3) flow is used when authenticating with the backend as a User. This is useful if you need to _write_ data to the API. Note this is the flow contentjet-ui uses when you enter your email and password into the login form!
 
 Request:
 
@@ -59,11 +59,11 @@ You may have noticed the `access_token` and `refresh_token` are identical. While
 
 ### Client Credentials Grant
 
-The [Client Credentials Grant](https://tools.ietf.org/html/rfc6749#section-4.4) flow is used when authenticating with the backend as a client. This form of authentication grants read-only access to the entire project the client was created under.
+The [Client Credentials Grant](https://tools.ietf.org/html/rfc6749#section-4.4) flow is used when authenticating with the backend as a Client. This form of authentication grants read-only access to the entire project the Client was created under.
 
 To use this flow you must have first created a Client in your project. This can be done via the UI by going to **Project Settings** then **API**. Note only users with admin rights to the project will be able to create Clients.
 
-Once you have created a client you can use the **clientId** and **clientSecret** to authenticate. Be sure to change `<your-project-id>` in the URL to the id of your project.
+Once you have created a Client you can use the **clientId** and **clientSecret** to authenticate. Be sure to change `<your-project-id>` in the URL to the id of your project.
 
 Request:
 
@@ -92,7 +92,7 @@ curl -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQi
 
 #### Refreshing the access token
 
-Unlike the _Resource Owner Password Credentials Grant_ flow, this flow does not allow refreshing the token.
+Unlike the _Resource Owner Password Credentials Grant_ flow, this flow does not support refreshing the token.
 
 
 [SwaggerUI]: https://swagger.io/swagger-ui/
