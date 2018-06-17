@@ -337,6 +337,14 @@ code {
     margin-left: 205px;
     flex-grow: 1;
     overflow-x: hidden;
+
+    img {
+      display: block;
+      max-width: 90%;
+      margin: 30px auto;
+      outline-offset: 5px;
+      outline: 1px solid var(--light-grey);
+    }
   }
 }
 
