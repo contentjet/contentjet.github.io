@@ -6,9 +6,9 @@ order: 10
 
 # API
 
-Contentjet's API is self documenting by exposing an [Open API 3 specification](https://github.com/OAI/OpenAPI-Specification). The specification can be found at the path `/spec` on your install of [contentjet-api](https://github.com/contentjet/contentjet-api) e.g _https://api.yourdomain.com/spec_. Readers are encouraged to visit [swagger.io](https://swagger.io/) for information around Open API tooling, specifically [Swagger UI](SwaggerUI) for generating documentation from the specification.
+Contentjet's API is self documenting by exposing [Swagger UI](SwaggerUI) at the path `/swagger/` on your install of [contentjet-api](https://github.com/contentjet/contentjet-api) e.g. _https://api.yourdomain.com/swagger/_.
 
-_TIP: You can paste the URL to your `/spec` endpoint in the Live Demo of [Swagger UI](SwaggerUI) to see rendered API docs._
+Alternatively you may wish to access the raw JSON [Open API 3 specification](https://github.com/OAI/OpenAPI-Specification) at the path `/spec` e.g _https://api.yourdomain.com/spec_.
 
 ## Authentication
 
