@@ -323,6 +323,14 @@ code {
     overflow-x: hidden;
   }
 
+.doc__content img {
+      display: block;
+      max-width: 90%;
+      margin: 30px auto;
+      outline-offset: 5px;
+      outline: 1px solid #efefef;
+    }
+
 .doc-nav {
   font-size: 14px;
 }

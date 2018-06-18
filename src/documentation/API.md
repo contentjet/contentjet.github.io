@@ -6,11 +6,11 @@ order: 10
 
 # API
 
-Contentjet's API is self documenting by exposing [Swagger UI](SwaggerUI) at the path `/swagger/` on your install of [contentjet-api](https://github.com/contentjet/contentjet-api) e.g. _https://api.yourdomain.com/swagger/_.
+Contentjet's API is self-documenting by exposing [Swagger UI](SwaggerUI) at the path `/swagger/` on your install of [contentjet-api](https://github.com/contentjet/contentjet-api) e.g. _https://api.yourdomain.com/swagger/_. This allows you to interactively browse the various endpoints provided by the API.
 
 ![](/images/swagger.png)
 
-Alternatively, advanced users may wish to access the raw JSON [Open API 3 specification](https://github.com/OAI/OpenAPI-Specification) at the path `/spec` e.g _https://api.yourdomain.com/spec_.
+Alternatively, advanced users may wish to access the raw JSON [Open API 3 specification](https://github.com/OAI/OpenAPI-Specification) at the path `/spec` e.g. _https://api.yourdomain.com/spec_.
 
 ## Authentication
 
