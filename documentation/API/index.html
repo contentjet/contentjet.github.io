@@ -49,8 +49,9 @@
           </aside>
           <section class="doc__content">
             <h1 id="api">API</h1>
-<p>Contentjet&#39;s API is self documenting by exposing an <a href="https://github.com/OAI/OpenAPI-Specification">Open API 3 specification</a>. The specification can be found at the path <code>/spec</code> on your install of <a href="https://github.com/contentjet/contentjet-api">contentjet-api</a> e.g <em><a href="https://api.yourdomain.com/spec">https://api.yourdomain.com/spec</a></em>. Readers are encouraged to visit <a href="https://swagger.io/">swagger.io</a> for information around Open API tooling, specifically <a href="SwaggerUI">Swagger UI</a> for generating documentation from the specification.</p>
-<p><em>TIP: You can paste the URL to your <code>/spec</code> endpoint in the Live Demo of <a href="SwaggerUI">Swagger UI</a> to see rendered API docs.</em></p>
+<p>Contentjet&#39;s API is self-documenting by exposing <a href="SwaggerUI">Swagger UI</a> at the path <code>/swagger/</code> on your install of <a href="https://github.com/contentjet/contentjet-api">contentjet-api</a> e.g. <em><a href="https://api.yourdomain.com/swagger/">https://api.yourdomain.com/swagger/</a></em>. This allows you to interactively browse the various endpoints provided by the API.</p>
+<p><img src="/images/swagger.png" alt=""></p>
+<p>Alternatively, advanced users may wish to access the raw JSON <a href="https://github.com/OAI/OpenAPI-Specification">Open API 3 specification</a> at the path <code>/spec</code> e.g. <em><a href="https://api.yourdomain.com/spec">https://api.yourdomain.com/spec</a></em>.</p>
 <h2 id="authentication">Authentication</h2>
 <p>Most endpoints exposed via the API require authentication. Contentjet adheres to the <strong>OAuth 2.0 Authorization Framework</strong> and provides two ways of authenticating.</p>
 <h3 id="resource-owner-password-credentials-grant">Resource Owner Password Credentials Grant</h3>
