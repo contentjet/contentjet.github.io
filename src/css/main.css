@@ -169,17 +169,27 @@ code {
       list-style: none;
       margin: 0;
       padding: 0;
+      display: flex;
+      justify-content: flex-end;
+      height: 100%;
     }
 
     &__item {
-      display: inline-block;
+      display: flex;
     }
 
     &__anchor {
       text-decoration: none;
       padding: 0 15px;
-      line-height: 50px;
-      display: block;
+      display: flex;
+      align-items: center;
+
+      img {
+        height: 24px;
+        margin-right: 8px;
+        display: inline-block;
+        opacity: 0.8;
+      }
     }
   }
 }
@@ -196,7 +206,7 @@ code {
   background: linear-gradient(135deg, #20cbfd 0%,#fd1555 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 
   margin: 0 -10px;
-  padding: 150px 0 300px;
+  padding: 110px 0 300px;
   color: #fff;
   text-align: center;
 
@@ -206,16 +216,16 @@ code {
   }
 
   h1 {
-    font-size: 38px;
+    font-size: 54px;
     font-weight: 700;
     line-height: 1.2em;
     margin-bottom: 0.35em;
   }
 
   h2 {
-    font-size: 18px;
+    font-size: 20px;
     line-height: 1.3em;
-    margin-bottom: 5.5em;
+    margin-bottom: 5em;
   }
 
   &__inner {
@@ -230,16 +240,16 @@ code {
   &__image-holder {
     position: absolute;
     left: 50%;
-    height: 470px;
-    width: 819.36px;
-    margin-left: -409.5px;
+    height: 550px;
+    width: calc(2880px * (550 / 1652));
+    margin-left: calc(2880px * (550 / 1652) * -0.5);
     box-shadow: 0 5px 30px rgba(0, 0, 0, .25);
   }
 
   &__image {
     display: block;
     position: absolute;
-    transition: opacity 1.75s linear;
+    transition: opacity 1.75s ease-in-out;
     opacity: 1;
 
     &.carousel-enter-active {
@@ -254,13 +264,13 @@ code {
 }
 
 .features {
-  padding: 240px 0 80px;
+  padding: 320px 0 80px;
   background: white;
   margin: 0 -10px;
 
   &__title {
     text-align: center;
-    font-size: 28px;
+    font-size: 34px;
   }
 
   .fa {

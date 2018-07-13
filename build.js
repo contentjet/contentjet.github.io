@@ -46,6 +46,7 @@ let metalsmith = Metalsmith(__dirname)
   .use(permalinks())
   .use(
     layouts({
+      directory: './src/layouts',
       engine: 'ejs'
     })
   )
