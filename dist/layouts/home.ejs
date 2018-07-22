@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= locals.title ? `${title} | Contentjet` : 'Contentjet - Open source headless CMS' %></title>
+    <%- include('includes/stylesheets'); %>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+  </head>
+  <body>
+    <%- include('includes/header'); %>
+    <div class="main">
+      <section class="hero">
+        <div class="hero__inner">
+          <div class="hero__content">
+            <%- contents %>
+          </div>
+          <div class="hero__image-holder">
+            <transition name="carousel">
+              <img class="hero__image" :key="activeSrc" :src="activeSrc" height="550" />
+            </transition>
+          </div>
+        </div>
+      </section>
+      <section class="features">
+        <h1 class="features__title">Features</h1>
+        <ul class="features-list">
+          <li class="features-item">
+            <i class="fa fa-feed" aria-hidden="true"></i>
+            <h3>Headless RESTful API</h3>
+            <p>Access your content as structured JSON from any device</p>
+          </li>
+          <li class="features-item">
+            <i class="fa fa-puzzle-piece" aria-hidden="true"></i>
+            <h3>Custom entry types</h3>
+            <p>Create your own entry types with 13 unique field types to choose from</p>
+          </li>
+          <li class="features-item">
+            <i class="fa fa-cubes" aria-hidden="true"></i>
+            <h3>One CMS. Multiple projects.</h3>
+            <p>Use projects to group your content. No need for separate CMS installs per domain.</p>
+          </li>
+          <li class="features-item">
+            <i class="fa fa-heart" aria-hidden="true"></i>
+            <h3>Node + PostgreSQL</h3>
+            <p>Combines the power of Node's non-blocking asynchronous architecture and PostgreSQL's solid RDB features. Awesome!</p>
+          </li>
+          <li class="features-item">
+            <i class="fa fa-users" aria-hidden="true"></i>
+            <h3>Simple per-project user management</h3>
+            <p>Create a project and invite your clients as editors. Great for digital agencies.</p>
+          </li>
+          <li class="features-item">
+            <i class="fa fa-mouse-pointer" aria-hidden="true"></i>
+            <h3>Easy to use UI</h3>
+            <p>React based single page application for interacting with contentjet's API</p>
+          </li>
+          <li class="features-item">
+            <i class="fa fa-file-image-o" aria-hidden="true"></i>
+            <h3>Media management</h3>
+            <p>Upload media to any project with automatic thumbnail generation of images</p>
+          </li>
+          <li class="features-item">
+            <i class="fa fa-unlock-alt" aria-hidden="true"></i>
+            <h3>100% free &amp; open source</h3>
+            <p>MIT licensed. Fork it. Hack it. Whatever.</p>
+          </li>
+        </ul>
+      </section>
+      <section class="call-to-action">
+        <a href="/documentation" class="button button-primary get-started-button">Get started</a>
+      </section>
+    </div>
+
+    <div class="image-loader">
+      <img src="/images/hero1.png" />
+      <img src="/images/hero2.png" />
+      <img src="/images/hero3.png" />
+    </div>
+
+    <script>
+      const carousel = new Vue({
+        el: '.hero__image-holder',
+        data() {
+          return {
+            intervalId: null,
+            activeIndex: 0,
+            images: [
+              '/images/hero1.png',
+              '/images/hero2.png',
+              '/images/hero3.png'
+            ]
+          }
+        },
+        mounted() {
+          this.intervalId = window.setInterval(this.transition, 7000);
+        },
+        beforeDestroy() {
+          window.clearInterval(this.intervalId);
+        },
+        computed: {
+          activeSrc() {
+            return this.images[this.activeIndex]
+          }
+        },
+        methods: {
+          transition() {
+            this.activeIndex++;
+            if (this.activeIndex > this.images.length - 1) this.activeIndex = 0;
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

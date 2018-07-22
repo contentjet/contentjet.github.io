@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Overview | Contentjet</title>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:400,700" media="screen" charset="utf-8">
+<link rel="stylesheet" href="/css/main.css">
+
+    <link rel="stylesheet" href="/highlight/styles/default.css">
+    <link rel="stylesheet" href="/highlight/styles/atom-one-light.css">
+    <script src="/highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </head>
+  <body class="documentation overview">
+    <header class="main-header">
+  <a class="logo" href="/">
+    <img src="/images/contentjet-logo-white.svg" alt="contentjet" />
+  </a>
+
+  <nav class="main-nav">
+    <ul class="main-nav__list">
+      <li class="main-nav__item">
+        <a class="main-nav__anchor" href="https://github.com/contentjet/contentjet-api">
+          <img src="/images/github-mark.svg" />
+          <span>API</span>
+        </a>
+      </li>
+      <li class="main-nav__item">
+        <a class="main-nav__anchor" href="https://github.com/contentjet/contentjet-ui">
+          <img src="/images/github-mark.svg" />
+          <span>UI</span>
+        </a>
+      </li>
+      <li class="main-nav__item">
+        <a class="main-nav__anchor" href="/documentation">Documentation</a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+    <div class="main">
+      <div class="doc">
+        <aside class="doc__sidebar">
+          <nav class="doc-nav">
+            <ul class="doc-nav__list">
+              
+                <li class="doc-nav__item active">
+                  <a class="doc-nav__anchor" href="/documentation">Overview</a>
+                </li>
+                
+                <li class="doc-nav__item">
+                  <a class="doc-nav__anchor" href="/documentation/install-with-docker">Install with Docker</a>
+                </li>
+                
+                <li class="doc-nav__item">
+                  <a class="doc-nav__anchor" href="/documentation/API">API</a>
+                </li>
+                
+                <li class="doc-nav__item">
+                  <a class="doc-nav__anchor" href="/documentation/webhooks">Webhooks</a>
+                </li>
+                
+              </ul>
+            </nav>
+          </aside>
+          <section class="doc__content">
+            <h1 id="overview">Overview</h1>
+<p>Contentjet is an open source API-first content management system built for the modern web. What sets Contentjet apart from traditional content management systems is that it is <em>headless</em> by design.</p>
+<h2 id="headless-say-what-">Headless? Say what?</h2>
+<p>Traditional content management systems bind content to presentation by passing content through a templating system which generates HTML for viewing in a web browser. In contrast a headless CMS makes no assumptions about how content is to be presented by removing the presentation layer (the head) entirely in favour of a more flexible RESTful API.</p>
+<p>The key design philosophy behind Contentjet is that <em><strong>content should exist free from it&#39;s presentation</strong></em>. As we now live in a world where content is consumed on numerous devices tightly coupling content to a single presentation is not always feasible.</p>
+<h2 id="features">Features</h2>
+<h3 id="custom-entry-types">Custom Entry types</h3>
+<p>Unlike traditional content management systems which limit content creation to a single <em>title</em> and <em>body</em> field, Contentjet let&#39;s you create your own entry types with custom fields. There are 13 fields to choose from such as text, boolean, date, multiple choice, colour and more!</p>
+<h3 id="multiple-projects">Multiple projects</h3>
+<p>Projects are top-level buckets for holding content. Each project holds it&#39;s own entry types, entries, media and users. How you choose to use projects is entirely up to you.</p>
+<p>Users may be members of multiple projects. Each project maintains it&#39;s own user access list. For example a user may be an <em>administrator</em> of one project but only an <em>author</em> in another project.</p>
+<h3 id="media-management">Media management</h3>
+<p>A CMS wouldn&#39;t be complete without the ability to upload images and files. Media can be attached to entries via the aptly named <em>media</em> field or inlined as markdown into text fields.</p>
+<h2 id="technology">Technology</h2>
+<p>The application is built on a stack of awesome open source projects namely <a href="https://nodejs.org">Node.js</a>, <a href="http://koajs.com/">Koa.js</a>, <a href="http://vincit.github.io/objection.js/">Objection.js</a>, <a href="https://www.postgresql.org/">PostgreSQL</a> and <a href="https://reactjs.org/">React</a>. The CMS is composed of 2 discreet applications, the backend API <a href="https://github.com/contentjet/contentjet-api">contentjet-api</a> and the frontend HTML user interface <a href="https://github.com/contentjet/contentjet-ui">contentjet-ui</a>.</p>
+
+          </section>
+        </div>
+    </div>
+  </body>
+</html>

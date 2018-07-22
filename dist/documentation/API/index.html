@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>API | Contentjet</title>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:400,700" media="screen" charset="utf-8">
+<link rel="stylesheet" href="/css/main.css">
+
+    <link rel="stylesheet" href="/highlight/styles/default.css">
+    <link rel="stylesheet" href="/highlight/styles/atom-one-light.css">
+    <script src="/highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </head>
+  <body class="documentation api">
+    <header class="main-header">
+  <a class="logo" href="/">
+    <img src="/images/contentjet-logo-white.svg" alt="contentjet" />
+  </a>
+
+  <nav class="main-nav">
+    <ul class="main-nav__list">
+      <li class="main-nav__item">
+        <a class="main-nav__anchor" href="https://github.com/contentjet/contentjet-api">
+          <img src="/images/github-mark.svg" />
+          <span>API</span>
+        </a>
+      </li>
+      <li class="main-nav__item">
+        <a class="main-nav__anchor" href="https://github.com/contentjet/contentjet-ui">
+          <img src="/images/github-mark.svg" />
+          <span>UI</span>
+        </a>
+      </li>
+      <li class="main-nav__item">
+        <a class="main-nav__anchor" href="/documentation">Documentation</a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+    <div class="main">
+      <div class="doc">
+        <aside class="doc__sidebar">
+          <nav class="doc-nav">
+            <ul class="doc-nav__list">
+              
+                <li class="doc-nav__item">
+                  <a class="doc-nav__anchor" href="/documentation">Overview</a>
+                </li>
+                
+                <li class="doc-nav__item">
+                  <a class="doc-nav__anchor" href="/documentation/install-with-docker">Install with Docker</a>
+                </li>
+                
+                <li class="doc-nav__item active">
+                  <a class="doc-nav__anchor" href="/documentation/API">API</a>
+                </li>
+                
+                <li class="doc-nav__item">
+                  <a class="doc-nav__anchor" href="/documentation/webhooks">Webhooks</a>
+                </li>
+                
+              </ul>
+            </nav>
+          </aside>
+          <section class="doc__content">
+            <h1 id="api">API</h1>
+<p>Contentjet&#39;s API is self-documenting by exposing <a href="SwaggerUI">Swagger UI</a> at the path <code>/swagger/</code> on your install of <a href="https://github.com/contentjet/contentjet-api">contentjet-api</a> e.g. <em><a href="https://api.yourdomain.com/swagger/">https://api.yourdomain.com/swagger/</a></em>. This allows you to interactively browse the various endpoints provided by the API.</p>
+<p><img src="/images/swagger.png" alt=""></p>
+<p>Alternatively, advanced users may wish to access the raw JSON <a href="https://github.com/OAI/OpenAPI-Specification">Open API 3 specification</a> at the path <code>/spec</code> e.g. <em><a href="https://api.yourdomain.com/spec">https://api.yourdomain.com/spec</a></em>.</p>
+<h2 id="authentication">Authentication</h2>
+<p>Most endpoints exposed via the API require authentication. Contentjet adheres to the <strong>OAuth 2.0 Authorization Framework</strong> and provides two ways of authenticating.</p>
+<h3 id="resource-owner-password-credentials-grant">Resource Owner Password Credentials Grant</h3>
+<p>The <a href="https://tools.ietf.org/html/rfc6749#section-4.3">Resource Owner Password Credentials Grant</a> flow is used when authenticating with the backend as a User. This is useful if you need to <em>write</em> data to the API. Note this is the flow contentjet-ui uses when you enter your email and password into the login form!</p>
+<p>Request:</p>
+<pre><code class="lang-bash">curl -H &quot;Content-Type: application/json&quot; \
+  -d &#39;{&quot;username&quot;:&quot;johnsmith@example.com&quot;,&quot;password&quot;:&quot;mypassword&quot;,&quot;grant_type&quot;:&quot;password&quot;}&#39; \
+  https://api.yourdomain.com/authenticate
+</code></pre>
+<p>Response:</p>
+<pre><code class="lang-json">{
+  &quot;access_token&quot;: &quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTUxOTc4OTcwNiwiZXhwIjoxNTE5NzkyNzA2fQ.yYbuJ7m4u_PxyeIDw0TbAHko-cdyh0iVkUtd6hRJDAA&quot;,
+  &quot;token_type&quot;: &quot;bearer&quot;,
+  &quot;expires_in&quot;: 300,
+  &quot;refresh_token&quot;: &quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTUxOTc4OTcwNiwiZXhwIjoxNTE5NzkyNzA2fQ.yYbuJ7m4u_PxyeIDw0TbAHko-cdyh0iVkUtd6hRJDAA&quot;
+}
+</code></pre>
+<p>The authentication response contains <code>access_token</code> which is a <a href="JWT">JWT</a> identifying the authenticated user. The access token is used by adding it as the <code>Authorization</code> header when making requests to secure endpoints e.g.</p>
+<pre><code class="lang-bash">curl -H &quot;Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTUxOTc4OTcwNiwiZXhwIjoxNTE5NzkyNzA2fQ.yYbuJ7m4u_PxyeIDw0TbAHko-cdyh0iVkUtd6hRJDAA&quot; \
+  https://api.yourdomain.com/user/me
+</code></pre>
+<h4 id="refreshing-the-access-token">Refreshing the access token</h4>
+<p>For security reasons access tokens have a short lifespan and expire after only a few minutes. In order to stay authenticated with the API an access tokens must be refreshed before it expires by submitting the <code>refresh_token</code> to the <code>/user/token-refresh</code> endpoint.</p>
+<pre><code class="lang-bash">curl -H &quot;Content-Type: application/json&quot; \
+  -H &quot;Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTUxOTc4OTcwNiwiZXhwIjoxNTE5NzkyNzA2fQ.yYbuJ7m4u_PxyeIDw0TbAHko-cdyh0iVkUtd6hRJDAA&quot; \
+  -d &#39;{&quot;refresh_token&quot;: &quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTUxOTc4OTcwNiwiZXhwIjoxNTE5NzkyNzA2fQ.yYbuJ7m4u_PxyeIDw0TbAHko-cdyh0iVkUtd6hRJDAA&quot;,&quot;grant_type&quot;:&quot;refresh_token&quot;}&#39; \
+  https://api.yourdomain.com/token-refresh
+</code></pre>
+<p>You may have noticed the <code>access_token</code> and <code>refresh_token</code> are identical. While this is true, it&#39;s recommended you keep an explicit reference to the <code>refresh_token</code> separate from the <code>access_token</code> and only send the <code>refresh_token</code> value to the token refresh endpoint.</p>
+<h3 id="client-credentials-grant">Client Credentials Grant</h3>
+<p>The <a href="https://tools.ietf.org/html/rfc6749#section-4.4">Client Credentials Grant</a> flow is used when authenticating with the backend as a Client. This form of authentication grants read-only access to the entire project the Client was created under.</p>
+<p>To use this flow you must have first created a Client in your project. This can be done via the UI by going to <strong>Project Settings</strong> then <strong>API</strong>. Note only users with admin rights to the project will be able to create Clients.</p>
+<p>Once you have created a Client you can use the <strong>clientId</strong> and <strong>clientSecret</strong> to authenticate. Be sure to change <code>&lt;your-project-id&gt;</code> in the URL to the id of your project.</p>
+<p>Request:</p>
+<pre><code class="lang-bash">curl -H &quot;Content-Type: application/json&quot; \
+  -d &#39;{&quot;client_id&quot;:&quot;39a469c6a2ea471392af28b9b0610c5f&quot;,&quot;client_secret&quot;:&quot;d46b7cce50c2498ba93bd7d44e4d4432&quot;,&quot;grant_type&quot;:&quot;client_credentials&quot;}&#39; \
+  https://api.yourdomain.com/project/&lt;your-project-id&gt;/client/authenticate
+</code></pre>
+<p>Response:</p>
+<pre><code class="lang-json">{
+    &quot;access_token&quot;: &quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGllbnRJZCI6MSwiYXVkIjoiZDQ2YjdjY2U1MGMyNDk4YmE5M2JkN2Q0NGU0ZDQ0MzIiLCJpYXQiOjE1Mjg3MTcxMjAsImV4cCI6MTUyODcyMDcyMH0.FI3v0fsglCYImPR2O_qT38rRGN24zq9vvKNwoD3lIE4&quot;,
+    &quot;token_type&quot;: &quot;bearer&quot;,
+    &quot;expires_in&quot;: 3600
+}
+</code></pre>
+<p>The authentication response contains <code>access_token</code> which is a <a href="JWT">JWT</a> identifying the authenticated Client. The access token is used by adding it as the <code>Authorization</code> header when making requests to secure endpoints e.g.</p>
+<pre><code class="lang-bash">curl -H &quot;Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTUxOTc4OTcwNiwiZXhwIjoxNTE5NzkyNzA2fQ.yYbuJ7m4u_PxyeIDw0TbAHko-cdyh0iVkUtd6hRJDAA&quot; \
+  https://api.yourdomain.com/project/&lt;your-project-id&gt;/entry-type/
+</code></pre>
+<h4 id="refreshing-the-access-token">Refreshing the access token</h4>
+<p>Unlike the <em>Resource Owner Password Credentials Grant</em> flow, this flow does not support refreshing the token.</p>
+
+          </section>
+        </div>
+    </div>
+  </body>
+</html>

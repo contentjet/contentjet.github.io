@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Install with Docker | Contentjet</title>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:400,700" media="screen" charset="utf-8">
+<link rel="stylesheet" href="/css/main.css">
+
+    <link rel="stylesheet" href="/highlight/styles/default.css">
+    <link rel="stylesheet" href="/highlight/styles/atom-one-light.css">
+    <script src="/highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </head>
+  <body class="documentation install-with-docker">
+    <header class="main-header">
+  <a class="logo" href="/">
+    <img src="/images/contentjet-logo-white.svg" alt="contentjet" />
+  </a>
+
+  <nav class="main-nav">
+    <ul class="main-nav__list">
+      <li class="main-nav__item">
+        <a class="main-nav__anchor" href="https://github.com/contentjet/contentjet-api">
+          <img src="/images/github-mark.svg" />
+          <span>API</span>
+        </a>
+      </li>
+      <li class="main-nav__item">
+        <a class="main-nav__anchor" href="https://github.com/contentjet/contentjet-ui">
+          <img src="/images/github-mark.svg" />
+          <span>UI</span>
+        </a>
+      </li>
+      <li class="main-nav__item">
+        <a class="main-nav__anchor" href="/documentation">Documentation</a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+    <div class="main">
+      <div class="doc">
+        <aside class="doc__sidebar">
+          <nav class="doc-nav">
+            <ul class="doc-nav__list">
+              
+                <li class="doc-nav__item">
+                  <a class="doc-nav__anchor" href="/documentation">Overview</a>
+                </li>
+                
+                <li class="doc-nav__item active">
+                  <a class="doc-nav__anchor" href="/documentation/install-with-docker">Install with Docker</a>
+                </li>
+                
+                <li class="doc-nav__item">
+                  <a class="doc-nav__anchor" href="/documentation/API">API</a>
+                </li>
+                
+                <li class="doc-nav__item">
+                  <a class="doc-nav__anchor" href="/documentation/webhooks">Webhooks</a>
+                </li>
+                
+              </ul>
+            </nav>
+          </aside>
+          <section class="doc__content">
+            <h1 id="installing-contentjet-with-docker">Installing contentjet with Docker</h1>
+<p>In this guide we will install contentjet onto a single host running Ubuntu 16.04 with Docker. By the end of this guide you will have a complete installation of contentjet secured with free TLS certificates provided by <a href="https://letsencrypt.org/">Let&#39;s Encrypt</a>.</p>
+<p>To complete this installation you must possess the following knowledge:</p>
+<ul>
+<li>Navigating a linux command line, specifically the BASH shell</li>
+<li>Connecting to a remote server over SSH</li>
+<li>Configuration of DNS</li>
+<li>An understanding of Docker</li>
+</ul>
+<p>You must also have:</p>
+<ul>
+<li>A server running a fresh install of Ubuntu 16.04 which you can SSH into (<a href="https://www.digitalocean.com/">DigitalOcean</a> is a good choice)</li>
+<li>A domain name registered through a registrar which gives you full access to the domain&#39;s DNS records</li>
+</ul>
+<h2 id="configure-dns">Configure DNS</h2>
+<p>We will host contentjet with the following 3 subdomains as follows:</p>
+<ul>
+<li><strong>app.example.com</strong>
+Will host the contentjet frontend, contentjet-ui</li>
+<li><strong>api.example.com</strong>
+Will host the contentjet backend, contentjet-api</li>
+<li><strong>media.example.com</strong>
+Will host user uploaded media</li>
+</ul>
+<p>You must log into your domain registrar and create 3x A records for <strong>app</strong>, <strong>api</strong> and <strong>media</strong> all pointing to the IP address of your server.</p>
+<h2 id="install-docker-docker-compose">Install Docker &amp; Docker Compose</h2>
+<p>Connect to your server over SSH and install Docker.</p>
+<pre><code class="lang-bash">curl -fsSL get.docker.com -o get-docker.sh
+sh get-docker.sh
+</code></pre>
+<p>Refer to the official documentation on <a href="https://docs.docker.com/compose/install/#install-compose">installing Docker Compose</a>.</p>
+<h2 id="generate-certificates-with-let-s-encrypt">Generate certificates with Let&#39;s Encrypt</h2>
+<p>In this step we will generate the free certificates for your 3 subdomains.</p>
+<p>Begin by creating our working directory at <strong>/opt/contentjet</strong> which we will run all subsequent commands from.</p>
+<pre><code class="lang-bash">mkdir -p /opt/contentjet
+cd /opt/contentjet
+</code></pre>
+<p>Run the following command to start a temporary server on port 80. This will create 2 named volumes which are used for storing the certificates generated in the next step as well as the challenge files required as part of Let&#39;s Encrypt&#39;s validation step.</p>
+<pre><code class="lang-bash">docker run \
+  --name temp-server \
+  --rm \
+  -d \
+  -v certs:/etc/letsencrypt \
+  -v certs-data:/data/letsencrypt \
+  -w /data/letsencrypt \
+  -p 80:8000 \
+  python:alpine3.7 \
+  python -m http.server 8000
+</code></pre>
+<p>Next, run the following command to request certificates from Let&#39;s Encrypt. <strong>Make sure you change the last 4 lines of this command to reflect your own email address and domain</strong>.</p>
+<pre><code class="lang-bash">docker run \
+  -it \
+  --rm \
+  -v certs:/etc/letsencrypt \
+  -v certs-data:/data/letsencrypt \
+  certbot/certbot \
+  certonly \
+  --preferred-challenges http \
+  --agree-tos \
+  --webroot \
+  --webroot-path=/data/letsencrypt \
+  --non-interactive \
+  -m youremail@example.com \
+  -d app.example.com \
+  -d api.example.com \
+  -d media.example.com
+</code></pre>
+<p>Assuming the above command executes successfully the certificates will have been written to our named volume. <strong>You MUST now stop the temporary server</strong>.</p>
+<pre><code class="lang-bash">docker stop temp-server
+</code></pre>
+<p>Now create a cron job which runs every 5 days to automatically renew your certificates. Edit your cron with <code>crontab -e</code> and add the following:</p>
+<pre><code class="lang-bash">0 0 */5 * *  docker run --rm -v certs:/etc/letsencrypt -v certs-data:/data/letsencrypt certbot/certbot renew -n &gt;&gt; /var/log/certbot.log
+</code></pre>
+<h2 id="configure-nginx">Configure NGINX</h2>
+<p>Next we will configure NGINX. Copy the following text and save it to <strong>/opt/contentjet/nginx.conf</strong> on your server.</p>
+<pre><code class="lang-nginx">user              nginx;
+worker_processes  1;
+
+pid               /var/run/nginx.pid;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    include                   /etc/nginx/mime.types;
+    default_type              application/octet-stream;
+
+    ssl_session_cache         shared:SSL:20m;
+    ssl_session_timeout       10m;
+
+    ssl_protocols             TLSv1 TLSv1.1 TLSv1.2;
+    ssl_prefer_server_ciphers on;
+    ssl_ciphers               &quot;ECDH+AESGCM:ECDH+AES256:ECDH+AES128:!ADH:!AECDH:!MD5;&quot;;
+
+    ssl_stapling              on;
+    ssl_stapling_verify       on;
+
+    ssl_certificate           /etc/letsencrypt/live/example.com/fullchain.pem;
+    ssl_certificate_key       /etc/letsencrypt/live/example.com/privkey.pem;
+    ssl_trusted_certificate   /etc/letsencrypt/live/example.com/chain.pem;
+
+    add_header                Strict-Transport-Security &quot;max-age=31536000&quot; always;
+
+    access_log                /dev/stdout;
+    error_log                 /dev/stderr info;
+
+    # Docker&#39;s internal DNS
+    resolver                  127.0.0.11;
+
+    server {
+        listen 80 default_server;
+        server_name *.example.com;
+
+        location / {
+            return 301 https://$host$request_uri;
+        }
+
+        location ^~ /.well-known {
+            allow all;
+            root  /data/letsencrypt/;
+        }
+    }
+
+    server {
+        listen      443           ssl http2;
+        listen [::]:443           ssl http2;
+        server_name               app.example.com;
+
+        location / {
+            proxy_pass                http://ui:9000;
+            proxy_http_version        1.1;
+            proxy_set_header          Host $host;
+
+            gzip                      on;
+            gzip_min_length           1000;
+            gzip_proxied              any;
+            gzip_types                application/javascript
+                                      application/json
+                                      text/css
+                                      image/svg+xml;
+        }
+    }
+
+    server {
+        listen      443           ssl http2;
+        listen [::]:443           ssl http2;
+        server_name               api.example.com;
+
+        client_max_body_size      200M;
+
+        location / {
+            proxy_pass                http://api:3000;
+            proxy_http_version        1.1;
+            proxy_set_header          Upgrade $http_upgrade;
+            proxy_set_header          Connection &#39;upgrade&#39;;
+            proxy_set_header          Host $host;
+            proxy_cache_bypass        $http_upgrade;
+        }
+    }
+
+    server {
+        listen      443           ssl http2;
+        listen [::]:443           ssl http2;
+        server_name               media.example.com;
+
+        expires                   1M;
+
+        root                      /opt/contentjet-api/media/;
+    }
+
+}
+</code></pre>
+<p>We now need to change every occurance of <strong>example.com</strong> to your actual domain. We can do this easily using <code>sed</code>. For example if your domain name was <strong>acme.com</strong> you would run the following command from within the <strong>/opt/contentjet/</strong> directory.</p>
+<pre><code class="lang-bash">sed -i -e &#39;s/example.com/acme.com/g&#39; nginx.conf
+</code></pre>
+<h2 id="configure-docker-compose">Configure Docker Compose</h2>
+<p>Next copy the following and save it to <strong>/opt/contentjet/docker-compose.yml</strong>.</p>
+<pre><code class="lang-yaml">version: &#39;3.4&#39;
+services:
+  nginx:
+    image: nginx:1.12.2
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - certs:/etc/letsencrypt
+      - certs-data:/data/letsencrypt
+      - media:/opt/contentjet-api/media/
+  db:
+    image: postgres:9.6.2
+    restart: always
+    environment:
+      POSTGRES_USER: yourdbuser # CHANGE ME
+      POSTGRES_PASSWORD: yourdbpassword # CHANGE ME
+      POSTGRES_DB: contentjet-api
+  api:
+    image: contentjet/contentjet-api
+    restart: always
+    environment:
+      NODE_ENV: production
+      POSTGRES_HOST: db
+      POSTGRES_USER: yourdbuser # CHANGE ME
+      POSTGRES_PASSWORD: yourdbpassword # CHANGE ME
+      POSTGRES_DB: contentjet-api
+      SECRET_KEY: yoursupersecretkey # CHANGE ME
+      SMTP_HOST: smtphost # CHANGE ME
+      SMTP_PORT: smtpport # CHANGE ME
+      SMTP_USER: smtpuser # CHANGE ME
+      SMTP_PASSWORD: smtppassword # CHANGE ME
+      MAIL_FROM: noreply@example.com # CHANGE ME
+      BACKEND_URL: https://api.example.com
+      MEDIA_URL: https://media.example.com
+      FRONTEND_URL: https://app.example.com
+    volumes:
+      - media:/opt/contentjet-api/media/
+  ui:
+    image: contentjet/contentjet-ui
+    restart: always
+    environment:
+      BACKEND_URL: https://api.example.com
+      PORT: 9000
+volumes:
+  media:
+  certs:
+    external: true
+  certs-data:
+    external: true
+</code></pre>
+<p>Similar to the change we made to <strong>nginx.conf</strong> we need to replace all occurances of <strong>example.com</strong> with <em>your</em> domain name. Again, this can be done quickly using <code>sed</code> by running the following from within the <strong>/opt/contentjet</strong> directory.</p>
+<pre><code class="lang-bash">sed -i -e &#39;s/example.com/acme.com/g&#39; docker-compose.yml
+</code></pre>
+<p>We need to make some additional edits to the environment variables within this file. As you can see there are 4 services defined <em><strong>nginx</strong></em>, <em><strong>db</strong></em>, <em><strong>api</strong></em> and <em><strong>ui</strong></em>. You MUST provide values for the lines commented with <strong><code>#CHANGE ME</code></strong>.</p>
+<p><code>SECRET_KEY</code> simply needs to be a unique random string of your choosing. Make sure you keep it secret as it&#39;s used in encrypting passwords and tokens.</p>
+<h2 id="run-services">Run services</h2>
+<pre><code class="lang-bash">docker-compose up -d
+</code></pre>
+<p>Docker will now automatically pull the necessary images and start all services. To confirm everything is running navigate to <code>https://app.yourdomain.com</code>.</p>
+<h2 id="create-an-administrator">Create an administrator</h2>
+<p>At this point contentjet should be running on your domain however there are no users! Create your first user by running the following command and entering your email address and your desired password at the prompt.</p>
+<pre><code class="lang-bash">docker-compose exec api npm run create-admin-user
+</code></pre>
+
+          </section>
+        </div>
+    </div>
+  </body>
+</html>
