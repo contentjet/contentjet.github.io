@@ -5,7 +5,6 @@ vim-hybrid theme by w0ng (https://github.com/w0ng/vim-hybrid)
 */
 
 /*background color*/
-
 .hljs {
   display: block;
   overflow-x: auto;
@@ -14,12 +13,6 @@ vim-hybrid theme by w0ng (https://github.com/w0ng/vim-hybrid)
 }
 
 /*selection color*/
-
-.hljs::-moz-selection,
-.hljs span::-moz-selection {
-  background: #373b41;
-}
-
 .hljs::selection,
 .hljs span::selection {
   background: #373b41;
@@ -31,20 +24,17 @@ vim-hybrid theme by w0ng (https://github.com/w0ng/vim-hybrid)
 }
 
 /*foreground color*/
-
 .hljs {
   color: #c5c8c6;
 }
 
 /*color: fg_yellow*/
-
 .hljs-title,
 .hljs-name {
   color: #f0c674;
 }
 
 /*color: fg_comment*/
-
 .hljs-comment,
 .hljs-meta,
 .hljs-meta .hljs-keyword {
@@ -52,7 +42,6 @@ vim-hybrid theme by w0ng (https://github.com/w0ng/vim-hybrid)
 }
 
 /*color: fg_red*/
-
 .hljs-number,
 .hljs-symbol,
 .hljs-literal,
@@ -62,7 +51,6 @@ vim-hybrid theme by w0ng (https://github.com/w0ng/vim-hybrid)
 }
 
 /*color: fg_green*/
-
 .hljs-string,
 .hljs-doctag,
 .hljs-addition,
@@ -73,7 +61,6 @@ vim-hybrid theme by w0ng (https://github.com/w0ng/vim-hybrid)
 }
 
 /*color: fg_purple*/
-
 .hljs-attribute,
 .hljs-code,
 .hljs-selector-id {
@@ -81,7 +68,6 @@ vim-hybrid theme by w0ng (https://github.com/w0ng/vim-hybrid)
 }
 
 /*color: fg_blue*/
-
 .hljs-keyword,
 .hljs-selector-tag,
 .hljs-bullet,
@@ -90,7 +76,6 @@ vim-hybrid theme by w0ng (https://github.com/w0ng/vim-hybrid)
 }
 
 /*color: fg_aqua*/
-
 .hljs-subst,
 .hljs-variable,
 .hljs-template-tag,
@@ -99,7 +84,6 @@ vim-hybrid theme by w0ng (https://github.com/w0ng/vim-hybrid)
 }
 
 /*color: fg_orange*/
-
 .hljs-type,
 .hljs-built_in,
 .hljs-builtin-name,

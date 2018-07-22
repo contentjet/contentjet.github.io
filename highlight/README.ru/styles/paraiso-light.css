@@ -5,14 +5,12 @@
 */
 
 /* Paraíso Comment */
-
 .hljs-comment,
 .hljs-quote {
   color: #776e71;
 }
 
 /* Paraíso Red */
-
 .hljs-variable,
 .hljs-template-variable,
 .hljs-tag,
@@ -26,7 +24,6 @@
 }
 
 /* Paraíso Orange */
-
 .hljs-number,
 .hljs-built_in,
 .hljs-builtin-name,
@@ -38,7 +35,6 @@
 }
 
 /* Paraíso Yellow */
-
 .hljs-title,
 .hljs-section,
 .hljs-attribute {
@@ -46,7 +42,6 @@
 }
 
 /* Paraíso Green */
-
 .hljs-string,
 .hljs-symbol,
 .hljs-bullet,
@@ -55,7 +50,6 @@
 }
 
 /* Paraíso Purple */
-
 .hljs-keyword,
 .hljs-selector-tag {
   color: #815ba4;

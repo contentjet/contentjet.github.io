@@ -7,14 +7,12 @@
  */
 
 /* Comment */
-
 .hljs-comment,
 .hljs-quote {
   color: #989498;
 }
 
 /* Red */
-
 .hljs-variable,
 .hljs-template-variable,
 .hljs-attribute,
@@ -29,7 +27,6 @@
 }
 
 /* Orange */
-
 .hljs-number,
 .hljs-built_in,
 .hljs-builtin-name,
@@ -40,13 +37,11 @@
 }
 
 /* Yellow */
-
 .hljs-class .hljs-title {
   color: #fdcc59;
 }
 
 /* Green */
-
 .hljs-string,
 .hljs-symbol,
 .hljs-bullet,
@@ -55,13 +50,11 @@
 }
 
 /* Aqua */
-
 .hljs-meta {
   color: #149b93;
 }
 
 /* Blue */
-
 .hljs-function,
 .hljs-section,
 .hljs-title {
@@ -69,7 +62,6 @@
 }
 
 /* Purple */
-
 .hljs-keyword,
 .hljs-selector-tag {
   color: #c85e7c;
