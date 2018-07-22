@@ -17,7 +17,7 @@
             <ul class="doc-nav__list">
               <% collections.docs.forEach(doc => { %>
                 <li class="<%= doc.path === path ? 'doc-nav__item active' : 'doc-nav__item' %>">
-                <a class="doc-nav__anchor" href="/<%= doc.path %>"><%= doc.title %></a>
+                  <a class="doc-nav__anchor" href="/<%= doc.path %>"><%= doc.title %></a>
                 </li>
                 <% }); %>
               </ul>

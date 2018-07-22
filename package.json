@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --watch src --watch layouts -e js,ejs,html,md,css build.js",
+    "start": "nodemon --watch src --watch layouts -e js,ejs,html,md,pcss build.js",
     "build": "node build.js"
   },
   "repository": {
@@ -28,7 +28,7 @@
     "metalsmith-layouts": "^1.8.1",
     "metalsmith-markdown": "^0.2.1",
     "metalsmith-permalinks": "^0.5.0",
-    "metalsmith-postcss": "^4.1.1",
+    "metalsmith-postcss": "git+https://github.com/willdady/metalsmith-postcss.git",
     "metalsmith-serve": "0.0.7",
     "nodemon": "^1.17.5",
     "postcss-cssnext": "^3.0.2",

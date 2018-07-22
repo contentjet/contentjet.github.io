@@ -19,6 +19,7 @@ let metalsmith = Metalsmith(__dirname)
   .clean(true)
   .use(
     postcss({
+      pattern: '*.pcss',
       plugins: {
         'postcss-import': {},
         'postcss-nested': {},
